@@ -10,15 +10,30 @@ import requests
 import time
 import concurrent.futures
 import urllib.parse
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+# ==============================================================================
+# CRONTAB 自動排程提示:
+# 在 Mac/Linux 系統中，可透過 crontab 定期執行本腳本並自動寄送 Email 雙週報。
+# 終端機輸入 `crontab -e` 後，加入以下指令 (簡單每 14 天的早上 9 點執行)：
+# 0 9 */14 * * cd /Users/julian/Documents/gemini/stock-analyst && source venv/bin/activate && export GEMINI_API_KEY="..." && export SENDER_EMAIL="..." && export SMTP_PASSWORD="..." && python src/generate_report.py
+#
+# 若要設定固定「雙週」的禮拜一早上 9 點執行：
+# 0 9 * * 1 expr $(date +\%W) \% 2 == 0 > /dev/null && cd /Users/julian/Documents/gemini/stock-analyst && source venv/bin/activate && python src/generate_report.py
+# ==============================================================================
 
 # --- Configurations ---
 SKILLS_PATH = "skills/kol_analyst.md"
 REPORT_PATH = "report.html"
+JSON_META_PATH = "gooaye_metadata.json"
 MAX_EPISODES = 50  # 擴大抓取量以涵蓋 6 個月的歷史資料
 INDEX_URL = "https://whatmkreallysaid.com/episodes.json"
 
-# Mock today's date based on context (July 4, 2026)
-TODAY = datetime(2026, 7, 4, tzinfo=timezone.utc)
+# Date Constraints
+TODAY = datetime.now(timezone.utc)
+FOURTEEN_DAYS_AGO = TODAY - timedelta(days=14)
 ONE_MONTH_AGO = TODAY - timedelta(days=30)
 THREE_MONTHS_AGO = TODAY - timedelta(days=90)
 SIX_MONTHS_AGO = TODAY - timedelta(days=180)
@@ -26,23 +41,15 @@ SIX_MONTHS_AGO = TODAY - timedelta(days=180)
 def clean_transcript(text):
     if not text:
         return ""
-    
-    # 1. 強化版：精準切除「贊助」區塊
     text = re.sub(r'##\s*贊助.*?(?=##|$)', '', text, flags=re.DOTALL)
-    
-    # 2. 移除連結
     text = re.sub(r'https?://\S+', '', text)
-    
-    # 3. 移除常見廣告關鍵字
     ad_pattern = re.compile(
         r'.*(折扣碼|優惠碼|NordVPN|植村秀|東璧堂|蝦皮|團購|輸入碼|官方網站|點擊連結|結帳輸入|專屬優惠|本集節目由).*',
         re.IGNORECASE | re.MULTILINE
     )
     cleaned_text = re.sub(ad_pattern, '', text)
-    
     cleaned_text = re.sub(r'\n{3,}', '\n\n', cleaned_text)
     cleaned_text = cleaned_text.replace("發哥", "聯發科(2454.TW)")
-    
     return cleaned_text.strip()
 
 def fetch_notes_metadata():
@@ -62,7 +69,6 @@ def extract_content_from_note(ep_meta):
     filename = ep_meta.get('filename')
     if not filename:
         return None
-        
     url = f"https://whatmkreallysaid.com/episodes/{urllib.parse.quote(filename)}"
     headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"}
     try:
@@ -78,8 +84,6 @@ def extract_content_from_note(ep_meta):
             
         raw_md = response.text
         cleaned_text = clean_transcript(raw_md)
-        
-        # 解除截斷鎖定，確保不漏掉節目後半段點名的股票
         return {'title': title, 'published': pub_date, 'summary': cleaned_text}
     except Exception as e:
         print(f"Error extracting {filename}: {e}")
@@ -118,53 +122,38 @@ def analyze_with_gemini(client, text_content, skill_prompt):
         return {"macro_summary": "", "investment_direction": "", "core_perspective": "", "extracted_stocks": []}
 
 def generate_sparkline_svg(prices, width=120, height=40):
-    if not prices or len(prices) < 2:
-        return ""
-    
+    if not prices or len(prices) < 2: return ""
     min_p, max_p = min(prices), max(prices)
     range_p = max_p - min_p if max_p != min_p else 1
-    
-    # Calculate coordinates
     pts = []
     for i, p in enumerate(prices):
         x = (i / (len(prices) - 1)) * width
         y = height - ((p - min_p) / range_p) * height
         pts.append(f"{x},{y}")
-        
     path_data = " ".join(pts)
-    
-    # Determine color (green for up, red for down)
     color = "#059669" if prices[-1] >= prices[0] else "#dc2626"
-    
-    svg = f"""
+    return f"""
     <svg width="{width}" height="{height}" viewBox="0 -5 {width} {height+10}" fill="none" xmlns="http://www.w3.org/2000/svg">
         <polyline points="{path_data}" fill="none" stroke="{color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         <circle cx="{pts[-1].split(',')[0]}" cy="{pts[-1].split(',')[1]}" r="3" fill="{color}"/>
     </svg>
     """
-    return svg
 
 def calculate_stock_performance(ticker):
     print(f"Fetching 1M trend for {ticker}...")
     try:
         stock = yf.Ticker(ticker)
-        # 抓取最近 1 個月的歷史資料
         hist = stock.history(period="1mo")
         if hist.empty: return None
-            
         closes = hist['Close'].tolist()
         start_price = closes[0]
         end_price = closes[-1]
-        
         if start_price == 0: return None
-             
         pct_change = ((end_price - start_price) / start_price) * 100
-        svg_chart = generate_sparkline_svg(closes)
-        
         return {
             'end_price': end_price,
             'pct_change': pct_change,
-            'svg_chart': svg_chart
+            'svg_chart': generate_sparkline_svg(closes)
         }
     except Exception:
         return None
@@ -173,29 +162,26 @@ def is_mentioned(stock, text):
     ticker_base = stock.get('ticker', '').split('.')[0]
     name = stock.get('name', '')
     text_lower = text.lower()
-    
-    if ticker_base and ticker_base.lower() in text_lower:
-        return True
-    if name and len(name) >= 2 and name.lower() in text_lower:
-        return True
+    if ticker_base and ticker_base.lower() in text_lower: return True
+    if name and len(name) >= 2 and name.lower() in text_lower: return True
     return False
 
 def process_episodes(client, all_episodes, skill_prompt):
     if not all_episodes: return {"macro_summary": "", "investment_direction": "", "stocks": []}
         
-    recent_episodes = all_episodes[:5]
-    print(f"\nProcessing {len(recent_episodes)} recent episodes with AI...")
+    # 精準篩選出「過去 14 天內」的最新集數，做為 Email 雙週報的核心
+    recent_episodes = [ep for ep in all_episodes if ep['published'] >= FOURTEEN_DAYS_AGO]
+    # Fallback: 如果過去兩週剛好停更，就取最新的一集
+    if not recent_episodes and all_episodes:
+        recent_episodes = [all_episodes[0]]
+        
+    print(f"\nProcessing {len(recent_episodes)} recent episodes (last 14 days) with AI...")
     combined_text = "\n\n".join([f"Title: {ep['title']}\nDate: {ep['published'].strftime('%Y-%m-%d')}\nContent:\n{ep['summary']}" for ep in recent_episodes])
     
     analysis = analyze_with_gemini(client, combined_text, skill_prompt)
-    
-    # 確保 analysis 是一個 dict。如果 AI 誤回傳 list，取第一個元素
     if isinstance(analysis, list):
-        if len(analysis) > 0:
-            analysis = analysis[0]
-        else:
-            analysis = {"macro_summary": "", "investment_direction": "", "core_perspective": "", "extracted_stocks": []}
-            
+        analysis = analysis[0] if len(analysis) > 0 else {"macro_summary": "", "investment_direction": "", "core_perspective": "", "extracted_stocks": []}
+        
     stock_results = []
     seen_tickers = set()
     
@@ -212,16 +198,12 @@ def process_episodes(client, all_episodes, skill_prompt):
                 if ep['published'] >= THREE_MONTHS_AGO: count_3m += 1
                 if ep['published'] >= SIX_MONTHS_AGO: count_6m += 1
                 
-        # 改為抓取近一個月趨勢
         perf = calculate_stock_performance(ticker)
         
         stock_results.append({
-            'ticker': ticker, 
-            'name': stock.get('name', ''),
-            'sentiment': stock.get('sentiment', 0), 
-            'reason': stock.get('reason', ''),
-            'performance': perf,
-            'counts': {'1m': count_1m, '3m': count_3m, '6m': count_6m}
+            'ticker': ticker, 'name': stock.get('name', ''),
+            'sentiment': stock.get('sentiment', 0), 'reason': stock.get('reason', ''),
+            'performance': perf, 'counts': {'1m': count_1m, '3m': count_3m, '6m': count_6m}
         })
         time.sleep(0.5)
         
@@ -241,19 +223,12 @@ def generate_html_report(result):
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>股癌 Podcast 專業投資組合與趨勢研報</title>
+        <title>【股癌量化風向】兩週雙週報</title>
         <style>
             :root {
-                --primary: #1e3a8a;
-                --secondary: #3b82f6;
-                --bg: #f8fafc;
-                --card-bg: #ffffff;
-                --text: #0f172a;
-                --text-light: #475569;
-                --positive: #059669;
-                --negative: #dc2626;
-                --neutral: #d97706;
-                --border: #cbd5e1;
+                --primary: #1e3a8a; --secondary: #3b82f6; --bg: #f8fafc; --card-bg: #ffffff;
+                --text: #0f172a; --text-light: #475569; --positive: #059669; --negative: #dc2626;
+                --neutral: #d97706; --border: #cbd5e1;
             }
             body { font-family: 'Helvetica Neue', Arial, 'LiHei Pro', 'Microsoft JhengHei', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.8; margin: 0; padding: 2rem; }
             .container { max-width: 1400px; margin: 0 auto; }
@@ -279,15 +254,12 @@ def generate_html_report(result):
             .reason-cell { max-width: 320px; line-height: 1.6; color: var(--text-light); font-size: 0.95rem; }
             .ticker { font-size: 1.2rem; color: var(--primary); letter-spacing: 0.5px; }
             .table-title { margin-top: 2rem; font-size: 1.4rem; color: var(--text); }
-            
             .badge-container { display: flex; gap: 6px; flex-wrap: wrap; }
             .badge { display: inline-flex; align-items: center; justify-content: center; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; }
             .badge-1m { background-color: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
             .badge-3m { background-color: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
             .badge-6m { background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
             .badge span { margin-right: 4px; opacity: 0.8; font-size: 0.75rem; font-weight: normal; }
-            
-            /* Trend chart styles */
             .trend-cell { min-width: 130px; }
             .price-block { display: flex; flex-direction: column; align-items: flex-end; }
             .price-val { font-size: 1.15rem; font-weight: 700; color: var(--text); }
@@ -301,8 +273,8 @@ def generate_html_report(result):
             <div class="header-section">
                 <h1>股癌 Podcast 專業投資組合與趨勢研報</h1>
                 <p style="color: #94a3b8; font-size: 1.2rem; margin-bottom: 0.5rem;">AI 自動化深度解析與歷史回測報告</p>
-                <p style="color: #64748b; font-size: 0.95rem;">資料來源：whatmkreallysaid.com ｜ 涵蓋過去 6 個月資料</p>
-                <p style="color: #64748b; font-size: 0.95rem;">報告產生時間: """ + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + """</p>
+                <p style="color: #64748b; font-size: 0.95rem;">資料來源：whatmkreallysaid.com ｜ 核心數據：近 14 天雙週彙整</p>
+                <p style="color: #64748b; font-size: 0.95rem;">報告產生時間: """ + TODAY.strftime("%Y-%m-%d %H:%M:%S") + """</p>
             </div>
             
             <div class="section">
@@ -344,7 +316,6 @@ def generate_html_report(result):
             if perf:
                 change_class = "up" if perf['pct_change'] >= 0 else "down"
                 change_sign = "+" if perf['pct_change'] >= 0 else ""
-                
                 price_html = f"""
                 <div class="price-block">
                     <span class="price-val">{perf['end_price']:.2f}</span>
@@ -390,6 +361,40 @@ def generate_html_report(result):
     with open(REPORT_PATH, 'w', encoding='utf-8') as f:
         f.write(html)
     print(f"Report successfully generated at {REPORT_PATH}")
+    return html
+
+def send_summary_email(html_content):
+    print("\nPreparing to send Email...")
+    smtp_server = os.environ.get("SMTP_SERVER", "smtp.gmail.com")
+    smtp_port = int(os.environ.get("SMTP_PORT", 587))
+    sender_email = os.environ.get("SENDER_EMAIL")
+    sender_password = os.environ.get("SMTP_PASSWORD")
+    receiver_emails_str = os.environ.get("RECEIVER_EMAIL", "julians900724@gmail.com,dracohsieh@gmail.com")
+
+    if not sender_email or not sender_password:
+        print("⚠️ 警告：缺少 SENDER_EMAIL 或 SMTP_PASSWORD 環境變數，跳過 Email 發送階段。")
+        print("   如需寄信，請在 Terminal 中設定: export SENDER_EMAIL='你的信箱' SMTP_PASSWORD='你的App密碼'")
+        return
+
+    subject = f"【股癌量化風向】兩週雙週報：最新標的熱度與波段績效追蹤 ({TODAY.strftime('%Y-%m-%d')})"
+    
+    receiver_list = [email.strip() for email in receiver_emails_str.split(",")]
+    
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = subject
+    msg["From"] = sender_email
+    msg["To"] = ", ".join(receiver_list)
+    
+    msg.attach(MIMEText(html_content, "html", "utf-8"))
+    
+    try:
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.send_message(msg)
+        print(f"✅ Email successfully sent to {', '.join(receiver_list)}")
+    except Exception as e:
+        print(f"❌ Failed to send email: {e}")
 
 def main():
     if not os.environ.get("GEMINI_API_KEY"):
@@ -401,7 +406,16 @@ def main():
     episodes = fetch_all_episodes()
     
     result = process_episodes(client, episodes, skill_prompt)
-    generate_html_report(result)
+    
+    # 匯出資料至 JSON 以供未來雲端硬碟或其他系統串接
+    with open(JSON_META_PATH, 'w', encoding='utf-8') as f:
+        # 將純量化數據倒出 (SVG字串可略去以保持JSON輕量，這裡直接保留原始dict)
+        json.dump(result, f, ensure_ascii=False, indent=2)
+    print(f"✅ Metadata successfully exported to {JSON_META_PATH}")
+    
+    html_content = generate_html_report(result)
+    
+    send_summary_email(html_content)
 
 if __name__ == "__main__":
     main()
