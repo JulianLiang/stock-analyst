@@ -1,0 +1,116 @@
+[
+  {
+    "symbol": "2330.TW",
+    "name": "台積電",
+    "current_price": 2445.0,
+    "pivots": {
+      "primary": {
+        "price": 346.54,
+        "date": "2022-10-26"
+      },
+      "secondary": {
+        "price": 1001.65,
+        "date": "2025-06-23"
+      }
+    },
+    "levels": [
+      {
+        "angle": 1035,
+        "price": 2483.22,
+        "status": "resistance"
+      },
+      {
+        "angle": 1080,
+        "price": 2562.64,
+        "status": "resistance"
+      },
+      {
+        "angle": 1125,
+        "price": 2643.3,
+        "status": "resistance"
+      },
+      {
+        "angle": 1170,
+        "price": 2725.22,
+        "status": "resistance"
+      },
+      {
+        "angle": 1215,
+        "price": 2808.39,
+        "status": "resistance"
+      },
+      {
+        "angle": 1260,
+        "price": 2892.8,
+        "status": "resistance"
+      },
+      {
+        "angle": 1305,
+        "price": 2978.47,
+        "status": "resistance"
+      },
+      {
+        "angle": 1350,
+        "price": 3065.38,
+        "status": "resistance"
+      }
+    ]
+  },
+  {
+    "symbol": "0050.TW",
+    "name": "元大台灣50",
+    "current_price": 108.35,
+    "pivots": {
+      "primary": {
+        "price": 21.84,
+        "date": "2022-10-26"
+      },
+      "secondary": {
+        "price": 45.32,
+        "date": "2025-06-23"
+      }
+    },
+    "levels": [
+      {
+        "angle": 585,
+        "price": 99.64,
+        "status": "support"
+      },
+      {
+        "angle": 630,
+        "price": 104.69,
+        "status": "support"
+      },
+      {
+        "angle": 675,
+        "price": 109.87,
+        "status": "pivot"
+      },
+      {
+        "angle": 720,
+        "price": 115.17,
+        "status": "resistance"
+      },
+      {
+        "angle": 765,
+        "price": 120.6,
+        "status": "resistance"
+      },
+      {
+        "angle": 810,
+        "price": 126.15,
+        "status": "resistance"
+      },
+      {
+        "angle": 855,
+        "price": 131.83,
+        "status": "resistance"
+      },
+      {
+        "angle": 900,
+        "price": 137.63,
+        "status": "resistance"
+      }
+    ]
+  }
+]

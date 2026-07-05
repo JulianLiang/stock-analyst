@@ -1,0 +1,211 @@
+import os
+from datetime import datetime
+
+REPORT_PATH = "berkshire_macronix_peer_report.html"
+
+def generate_berkshire_html():
+    html_content = f"""
+    <!DOCTYPE html>
+    <html lang="zh-TW">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AI Berkshire 投資決策備忘錄 - 旺宏 (2337) 暨記憶體同業對比</title>
+        <style>
+            :root {{
+                --bg: #f8fafc;
+                --card-bg: #ffffff;
+                --text: #0f172a;
+                --text-light: #475569;
+                --border: #e2e8f0;
+                --berkshire-red: #991b1b;
+                --duan-blue: #1d4ed8;
+                --buffett-green: #15803d;
+                --munger-purple: #6b21a8;
+                --lilu-orange: #b45309;
+                --fail-red: #ef4444;
+                --table-header: #f1f5f9;
+            }}
+            body {{
+                font-family: 'Helvetica Neue', Arial, 'LiHei Pro', 'Microsoft JhengHei', sans-serif;
+                background-color: var(--bg);
+                color: var(--text);
+                line-height: 1.7;
+                margin: 0;
+                padding: 2rem;
+            }}
+            .container {{
+                max-width: 1000px;
+                margin: 0 auto;
+            }}
+            .header-section {{
+                text-align: center;
+                margin-bottom: 3rem;
+                padding: 3rem 2rem;
+                background: linear-gradient(135deg, #1e293b, #0f172a);
+                color: white;
+                border-radius: 16px;
+                box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1);
+            }}
+            h1 {{ margin: 0 0 0.5rem 0; font-size: 2.5rem; letter-spacing: 1px; }}
+            .subtitle {{ color: #94a3b8; font-size: 1.1rem; margin: 0; }}
+            
+            .section {{
+                background: var(--card-bg);
+                border-radius: 16px;
+                padding: 2.5rem;
+                margin-bottom: 2.5rem;
+                box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            }}
+            h2 {{
+                border-bottom: 2px solid var(--border);
+                padding-bottom: 0.75rem;
+                margin-top: 0;
+                font-size: 1.8rem;
+                color: var(--berkshire-red);
+            }}
+            
+            /* 同業對比表格 */
+            .peer-table-container {{
+                overflow-x: auto;
+                margin: 2rem 0;
+                border-radius: 12px;
+                border: 1px solid var(--border);
+            }}
+            table {{
+                width: 100%;
+                border-collapse: collapse;
+                text-align: left;
+            }}
+            th, td {{
+                padding: 1.25rem 1rem;
+                border-bottom: 1px solid var(--border);
+            }}
+            th {{
+                background-color: var(--table-header);
+                font-weight: bold;
+                color: var(--text);
+            }}
+            tr:last-child td {{ border-bottom: none; }}
+            .highlight-row {{ background-color: #fef2f2; }}
+            .negative-val {{ color: var(--fail-red); font-weight: bold; }}
+            .positive-val {{ color: var(--buffett-green); font-weight: bold; }}
+
+            .agent-box {{
+                margin-bottom: 2rem;
+                padding: 1.5rem;
+                border-radius: 12px;
+                background-color: #f8fafc;
+                border-left: 5px solid;
+            }}
+            .agent-box h3 {{ margin-top: 0; margin-bottom: 1rem; font-size: 1.3rem; display: flex; align-items: center; gap: 8px; }}
+            .agent-box ul {{ margin: 0; padding-left: 1.5rem; color: var(--text-light); }}
+            .agent-box li {{ margin-bottom: 0.5rem; }}
+            
+            .agent-duan {{ border-left-color: var(--duan-blue); }}
+            .agent-duan h3 {{ color: var(--duan-blue); }}
+            .agent-munger {{ border-left-color: var(--munger-purple); }}
+            .agent-munger h3 {{ color: var(--munger-purple); }}
+
+            .conclusion-box {{
+                background-color: #f1f5f9;
+                padding: 2rem;
+                border-radius: 12px;
+                border: 1px solid var(--border);
+            }}
+            .conclusion-box h4 {{ margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text); font-size: 1.2rem; }}
+            .conclusion-box p {{ color: var(--text-light); margin-top: 0; }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header-section">
+                <h1>🎯 旺宏 (2337) 暨台灣記憶體同業對比分析</h1>
+                <p class="subtitle">AI Berkshire Framework | 產生日期: {datetime.now().strftime("%Y-%m-%d")}</p>
+            </div>
+
+            <div class="section">
+                <h2>▎台灣記憶體三雄：殘酷的橫向數據對決</h2>
+                <p style="color: var(--text-light); margin-bottom: 1.5rem;">在價值投資中，若護城河難以定性，數據就是最強的照妖鏡。以下為最新年度的營運數據提取對比：</p>
+                
+                <div class="peer-table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>公司名稱</th>
+                                <th>主力產品與定位</th>
+                                <th>毛利率 (Gross Margin)</th>
+                                <th>本業營益率 (Op Margin)</th>
+                                <th>股東權益報酬率 (ROE)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>南亞科 (2408.TW)</td>
+                                <td>標準型 DRAM (受報價影響極大，但具規模彈性)</td>
+                                <td>45.52%</td>
+                                <td><span class="positive-val">7.88%</span></td>
+                                <td><span class="positive-val">19.39%</span></td>
+                            </tr>
+                            <tr>
+                                <td>華邦電 (2344.TW)</td>
+                                <td>利基型 DRAM、NOR Flash (產品線較廣，抗震能力佳)</td>
+                                <td>43.18%</td>
+                                <td><span class="positive-val">6.33%</span></td>
+                                <td><span class="positive-val">12.93%</span></td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td><strong>旺宏 (2337.TW)</strong></td>
+                                <td><strong>ROM (任天堂大客戶)、NOR Flash (車用/工控)</strong></td>
+                                <td><strong>25.04%</strong></td>
+                                <td><span class="negative-val">-12.80%</span></td>
+                                <td><span class="negative-val">-1.38%</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>▎AI Berkshire 觀點更新 (基於同業對比)</h2>
+                
+                <div class="agent-box agent-duan">
+                    <h3>👤 段永平視角：對的生意嗎？ (Business Essence)</h3>
+                    <ul>
+                        <li><strong>喪失定價權的鐵證：</strong> 相比南亞科與華邦電高達 40% 以上的毛利率，旺宏的毛利率僅剩 25%。這顯示其主力的 ROM 與 NOR Flash 產品線正面臨嚴重的價格競爭或大客戶壓價，<strong>它在同業中幾乎沒有定價權</strong>。</li>
+                        <li><strong>生意模式的劣勢：</strong> 同樣面對記憶體寒冬，南亞科與華邦電依然能維持本業獲利 (Operating Margin 為正) 並交出雙位數的 ROE。旺宏卻深陷 -12.8% 的本業虧損。這不是大環境的問題，這是企業護城河結構本身的問題。</li>
+                    </ul>
+                </div>
+
+                <div class="agent-box agent-munger">
+                    <h3>👓 查理·芒格視角：反過來想 (Inversion & Risks)</h3>
+                    <ul>
+                        <li><strong>最大的風險不是週期，而是掉隊：</strong> 投資記憶體產業，芒格會接受「景氣循環帶來的利潤波動」，但他不會接受「別人在賺錢，你卻在虧錢」。</li>
+                        <li><strong>機會成本 (Opportunity Cost)：</strong> 芒格常說：「如果有一項更確定、更高回報的投資，為什麼要把錢放在較差的選項裡？」如果看好記憶體反轉，同業的南亞科或華邦電展現了更強的經營韌性與資本回報率。投資旺宏將承受極高的機會成本。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section conclusion-box">
+                <h2>▎最終結論與操作建議 (Forced Conclusion)</h2>
+                
+                <h4>判定：FAIL (絕對拒絕買入區)</h4>
+                <p>在沒有同業對比前，我們或許可以將旺宏的虧損歸咎於「記憶體週期低谷」。但殘酷的橫向數據表明：在同樣的總經環境下，同業（南亞科、華邦電）不僅毛利碾壓旺宏，ROE 更是健康的雙位數。旺宏目前在營運效率與產品護城河上，是台灣記憶體三雄中的墊底者。</p>
+
+                <h4>具體建議：</h4>
+                <ul>
+                    <li>基於 <strong>AI Berkshire 框架的「Mirror Test」</strong>：如果你用 5 句話說服自己買入旺宏，最後一句必定會被「那為什麼不買南亞科或華邦電？」給擊潰。</li>
+                    <li><strong>操作策略：</strong> 取消所有佈局計畫。如果你堅信記憶體週期（例如 AI PC/Edge AI 帶動邊緣記憶體需求），應將資金轉向體質更佳的 <strong>華邦電 (2344)</strong> 或純度更高的 <strong>南亞科 (2408)</strong>，並徹底將旺宏從價值投資的觀察名單中剔除。</li>
+                </ul>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    
+    with open(REPORT_PATH, 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    print(f"✅ Successfully generated HTML report at: {REPORT_PATH}")
+
+if __name__ == "__main__":
+    generate_berkshire_html()
