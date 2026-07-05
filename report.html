@@ -4,94 +4,842 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>股癌 Podcast 投資情緒與標的分析報告</title>
+        <title>股癌 Podcast 專業投資組合與趨勢研報</title>
         <style>
             :root {
-                --primary: #2563eb;
+                --primary: #1e3a8a;
+                --secondary: #3b82f6;
                 --bg: #f8fafc;
                 --card-bg: #ffffff;
-                --text: #1e293b;
-                --text-light: #64748b;
-                --positive: #10b981;
-                --negative: #ef4444;
-                --neutral: #f59e0b;
-                --border: #e2e8f0;
+                --text: #0f172a;
+                --text-light: #475569;
+                --positive: #059669;
+                --negative: #dc2626;
+                --neutral: #d97706;
+                --border: #cbd5e1;
             }
-            body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background-color: var(--bg);
-                color: var(--text);
-                line-height: 1.6;
-                margin: 0;
-                padding: 2rem;
-            }
-            .container {
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-            h1 {
-                text-align: center;
-                color: var(--primary);
-                margin-bottom: 2rem;
-            }
-            .section {
-                background: var(--card-bg);
-                border-radius: 12px;
-                padding: 2rem;
-                margin-bottom: 2rem;
-                box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            }
-            h2 {
-                border-bottom: 2px solid var(--border);
-                padding-bottom: 0.5rem;
-                margin-top: 0;
-                color: var(--text);
-            }
-            .themes-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 0.5rem;
-                margin-bottom: 1.5rem;
-            }
-            .theme-tag {
-                background-color: #dbeafe;
-                color: #1d4ed8;
-                padding: 0.25rem 0.75rem;
-                border-radius: 9999px;
-                font-size: 0.875rem;
-                font-weight: 500;
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 1rem;
-            }
-            th, td {
-                padding: 1rem;
-                text-align: left;
-                border-bottom: 1px solid var(--border);
-            }
-            th {
-                background-color: #f1f5f9;
-                font-weight: 600;
-                color: var(--text-light);
-            }
-            tr:last-child td {
-                border-bottom: none;
-            }
-            .sentiment-1 { color: var(--positive); font-weight: bold; }
-            .sentiment-0 { color: var(--neutral); font-weight: bold; }
-            .sentiment--1 { color: var(--negative); font-weight: bold; }
-            .perf-positive { color: var(--positive); }
-            .perf-negative { color: var(--negative); }
-            .reason-cell { max-width: 300px; }
+            body { font-family: 'Helvetica Neue', Arial, 'LiHei Pro', 'Microsoft JhengHei', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.8; margin: 0; padding: 2rem; }
+            .container { max-width: 1400px; margin: 0 auto; }
+            .header-section { text-align: center; margin-bottom: 3rem; padding: 3rem 2rem; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border-radius: 20px; box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1); }
+            h1 { margin: 0 0 1rem 0; font-size: 2.8rem; letter-spacing: 2px; }
+            .section { background: var(--card-bg); border-radius: 20px; padding: 2.5rem; margin-bottom: 3rem; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05); }
+            .section-title { border-bottom: 3px solid var(--primary); padding-bottom: 0.75rem; margin-top: 0; margin-bottom: 1.5rem; color: var(--text); font-size: 1.75rem; font-weight: 700; }
+            .content-box { background-color: #f1f5f9; border-left: 6px solid var(--primary); padding: 2rem; margin-bottom: 2rem; border-radius: 0 12px 12px 0; text-align: justify; }
+            .content-box.strategy { border-left-color: var(--neutral); background-color: #fffbeb; }
+            .content-box h4 { margin-top: 0; color: var(--primary); font-size: 1.35rem; margin-bottom: 1rem; }
+            .content-box.strategy h4 { color: var(--neutral); }
+            .content-box.perspective { border-left-color: var(--secondary); background-color: #eff6ff; }
+            .content-box.perspective h4 { color: var(--secondary); }
+            .content-box p { margin: 0; font-size: 1.1rem; color: var(--text-light); white-space: pre-wrap; }
+            table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 1.5rem; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+            th, td { padding: 1.25rem 1rem; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle;}
+            th { background-color: #f8fafc; font-weight: 700; color: var(--text); font-size: 1.05rem; }
+            tr:last-child td { border-bottom: none; }
+            tr:hover { background-color: #f1f5f9; }
+            .sentiment-1 { color: var(--positive); font-weight: bold; background: #d1fae5; padding: 6px 10px; border-radius: 6px; }
+            .sentiment-0 { color: var(--neutral); font-weight: bold; background: #fef3c7; padding: 6px 10px; border-radius: 6px; }
+            .sentiment--1 { color: var(--negative); font-weight: bold; background: #fee2e2; padding: 6px 10px; border-radius: 6px; }
+            .reason-cell { max-width: 320px; line-height: 1.6; color: var(--text-light); font-size: 0.95rem; }
+            .ticker { font-size: 1.2rem; color: var(--primary); letter-spacing: 0.5px; }
+            .table-title { margin-top: 2rem; font-size: 1.4rem; color: var(--text); }
+            
+            .badge-container { display: flex; gap: 6px; flex-wrap: wrap; }
+            .badge { display: inline-flex; align-items: center; justify-content: center; padding: 4px 8px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; }
+            .badge-1m { background-color: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+            .badge-3m { background-color: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+            .badge-6m { background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+            .badge span { margin-right: 4px; opacity: 0.8; font-size: 0.75rem; font-weight: normal; }
+            
+            /* Trend chart styles */
+            .trend-cell { min-width: 130px; }
+            .price-block { display: flex; flex-direction: column; align-items: flex-end; }
+            .price-val { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+            .price-change { font-size: 0.9rem; font-weight: 600; }
+            .price-change.up { color: var(--positive); }
+            .price-change.down { color: var(--negative); }
         </style>
     </head>
     <body>
         <div class="container">
-            <h1>股癌 Podcast 投資情緒與標的分析報告</h1>
-            <p style="text-align: center; color: var(--text-light);">報告產生日期: 2026年7月4日</p>
-    <div class="section"><h2>過去 1 個月 (近 30 天)</h2><h3>核心投資方向與總經主題</h3><div class="themes-container"><span class="theme-tag">電動車充電基礎設施</span></div><h3>提及股票與績效追蹤</h3><p>無提取出相關股票。</p></div><div class="section"><h2>過去 3 個月 (31 - 90 天前)</h2><h3>核心投資方向與總經主題</h3><p>無提取出特別主題。</p><h3>提及股票與績效追蹤</h3><p>無提取出相關股票。</p></div><div class="section"><h2>過去 6 個月 (91 - 180 天前)</h2><h3>核心投資方向與總經主題</h3><div class="themes-container"><span class="theme-tag">光學</span><span class="theme-tag">GPU</span><span class="theme-tag">CPU</span></div><h3>提及股票與績效追蹤</h3><p>無提取出相關股票。</p></div>
+            <div class="header-section">
+                <h1>股癌 Podcast 專業投資組合與趨勢研報</h1>
+                <p style="color: #94a3b8; font-size: 1.2rem; margin-bottom: 0.5rem;">AI 自動化深度解析與歷史回測報告</p>
+                <p style="color: #64748b; font-size: 0.95rem;">資料來源：whatmkreallysaid.com ｜ 涵蓋過去 6 個月資料</p>
+                <p style="color: #64748b; font-size: 0.95rem;">報告產生時間: 2026-07-05 16:13:52</p>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">最新深度筆記分析</h2>
+    <div class="content-box"><h4>📉 宏觀經濟與產業趨勢總結</h4><p>當前市場呈現全球股市持續攀升的態勢，台股指數屢創新高，主要由科技與硬體板塊驅動。此輪漲勢歷經短暫修正，多數歸因於季度末機構資金再平衡（rebalance），而非地緣政治或利率政策等基本面因素。宏觀經濟方面，通膨壓力集中於資料中心供應鏈，由強勁的AI需求推升，但消費與車用市場相對疲軟，這反而使得AI驅動的漲勢得以延長，避免了更廣泛的通膨失控與需求破壞。市場資金的流向已從初期的高毛利AI設計服務公司，轉向更基礎的關鍵零組件。被動元件、功率半導體（特別是MOSFET）的供給瓶頸日益嚴重，交期拉長至一年以上，並伴隨價格上漲，使二線供應商及擁有產能或穩固客戶關係的廠商受惠。先進封裝亦被視為下一波成長動能，受惠於AI對複雜封裝的需求與報價上漲。整體市場情緒偏向謹慎樂觀，但對上半年的極端漲幅，仍需警惕後續可能出現的整理或修正。主持人也指出股市的財富效應尚未完全轉化為實體消費，資本仍在市場內循環，一旦市場動盪加劇，資金可能轉向其他資產。</p></div><div class="content-box strategy"><h4>🎯 投資方向與策略</h4><p>投資策略應順應市場趨勢，積極佈局AI基礎建設相關的硬體板塊，並關注關鍵零組件的供需緊張與漲價效應。具體方向包括：
+1.  **鎖定AI基礎設施：** 持續看好AI基礎建設中的核心硬體供應商。
+2.  **佈局元件漲價潮：**
+    *   **被動元件：** 儘管部分標的已漲幅巨大，但漲價趨勢明確，仍需關注需求驅動的持續性。
+    *   **功率元件（MOSFET）：** 因需求強勁、產能緊缺導致價格上漲與交期拉長，應優先選擇具備整合製造（IDM）能力或能穩定取得成熟製程晶圓代工（如6吋、8吋）與後段封測產能的廠商。
+    *   **先進封裝：** 被視為接棒的市場題材，因AI需求推動封裝廠報價上揚，可關注OSAT（專業委外封測代工）廠商。
+3.  **留意IC設計全面轉強：** 關注IC設計大廠在AI時代的策略轉型與產品布局，判斷其漲價是成本轉嫁還是需求驅動。
+4.  **彈性調整持股：** 對於在市場修正中跌破關鍵均線（如季線）的標的應保持警惕，其反彈後可能面臨較大賣壓，應優先配置資金於率先轉強或有新高的領頭羊。
+5.  **長期佈局美股科技巨頭：** 長期看好如Google、Apple等在AI應用層面與成本優化方面表現優異的科技巨頭，儘管短期表現可能分化。</p></div><div class="content-box perspective"><h4>💡 核心投資觀點 (QA 心法)</h4><p>核心投資觀點強調在市場中的謙遜與應變能力，而非僵化的預測。主持人多次指出，市場修正常伴隨各種「鬼故事」，但事後回顧多為雜訊，過度解讀或試圖精準預測底部皆無益。成功的投資者應「見招拆招」，根據市場實際走勢調整策略，並抱持對人類科技進步的長期信念。風險控管至關重要，應避免過度槓桿，以防在突發性市場震盪中遭受不可逆的損失。投資應區分需求驅動與成本驅動的漲價，後者續航力較弱。此外，對於市場資訊應保持批判性思考，避免盲目從眾，因「大家共識」往往意味著機會已反映。個人心態方面，財富的增長常伴隨對更多投資機會的渴望，而非安於現狀，因此找到投資與生活品質之間的平衡至關重要。最終，不論市場如何變動，持續學習、適應變化，並在對的趨勢上保持耐心，方為致勝之道。</p></div><h3 class="table-title">📊 提及與關聯標的動能追蹤</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>標的代碼</th>
+                    <th>名稱</th>
+                    <th>AI 情緒</th>
+                    <th>🔥 滾動提及頻次<br><small style="font-weight: normal; color: var(--text-light);">(1M / 3M / 6M)</small></th>
+                    <th>點名或關聯原因摘要</th>
+                    <th>📈 近 1M 趨勢圖</th>
+                    <th style="text-align: right;">現價與月漲跌</th>
+                </tr>
+            </thead>
+            <tbody>
+        
+                <tr>
+                    <td><strong class="ticker">2454.TW</strong></td>
+                    <td style="font-weight: 500;">聯發科</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>7 次</div>
+                    <div class="badge badge-3m"><span>3M</span>18 次</div>
+                    <div class="badge badge-6m"><span>6M</span>21 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中點名其晶片漲價消息，以及Google合作案TriggerFish的早期階段進展，顯示其在AI領域的積極布局與客戶認可。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,0.882352941176471 5.7142857142857135,7.647058823529413 11.428571428571427,15.294117647058822 17.142857142857142,28.823529411764707 22.857142857142854,5.0 28.57142857142857,23.823529411764707 34.285714285714285,27.941176470588236 40.0,22.352941176470587 45.71428571428571,5.294117647058826 51.42857142857142,0.0 57.14285714285714,5.882352941176471 62.85714285714286,10.0 68.57142857142857,5.588235294117645 74.28571428571429,1.470588235294116 80.0,16.176470588235293 85.71428571428572,14.705882352941178 91.42857142857142,40.0 97.14285714285714,38.23529411764706 102.85714285714285,18.529411764705884 108.57142857142857,13.235294117647062 114.28571428571428,12.647058823529413 120.0,21.470588235294116" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="21.470588235294116" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">4195.00</span>
+                    <span class="price-change down">-7.70%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">3443.TW</strong></td>
+                    <td style="font-weight: 500;">創意</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>1 次</div>
+                    <div class="badge badge-3m"><span>3M</span>3 次</div>
+                    <div class="badge badge-6m"><span>6M</span>5 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及IC Design全面轉強，以及在AI、先進封裝等領域的機會，故關聯此代表性標的。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,22.86235332854406 5.7142857142857135,29.117382064176244 11.428571428571427,28.81226053639847 17.142857142857142,32.95019157088123 22.857142857142854,31.264367816091955 28.57142857142857,40.0 34.285714285714285,37.547892720306514 40.0,29.11877394636015 45.71428571428571,15.785440613026822 51.42857142857142,12.567049808429118 57.14285714285714,7.816091954022987 62.85714285714286,14.406130268199234 68.57142857142857,17.624521072796938 74.28571428571429,18.544061302681992 80.0,13.793103448275865 85.71428571428572,14.71264367816092 91.42857142857142,27.89272030651341 97.14285714285714,27.89272030651341 102.85714285714285,14.865900383141764 108.57142857142857,8.735632183908045 114.28571428571428,0.0 120.0,8.88888888888889" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="8.88888888888889" r="3" fill="#059669"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">5040.00</span>
+                    <span class="price-change up">+9.94%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">3661.TW</strong></td>
+                    <td style="font-weight: 500;">世芯-KY</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>0 次</div>
+                    <div class="badge badge-3m"><span>3M</span>1 次</div>
+                    <div class="badge badge-6m"><span>6M</span>1 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及IC Design全面轉強，以及在AI、先進封裝等領域的機會，故關聯此代表性標的。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,11.707317073170735 5.7142857142857135,21.65853658536585 11.428571428571427,23.804878048780488 17.142857142857142,28.29268292682927 22.857142857142854,25.170731707317074 28.57142857142857,33.36585365853659 34.285714285714285,32.58536585365854 40.0,30.829268292682926 45.71428571428571,25.170731707317074 51.42857142857142,22.634146341463413 57.14285714285714,22.4390243902439 62.85714285714286,20.097560975609756 68.57142857142857,22.24390243902439 74.28571428571429,20.29268292682927 80.0,22.048780487804876 85.71428571428572,25.951219512195124 91.42857142857142,40.0 97.14285714285714,35.51219512195122 102.85714285714285,27.902439024390244 108.57142857142857,17.365853658536587 114.28571428571428,0.0 120.0,9.560975609756099" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="9.560975609756099" r="3" fill="#059669"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">4650.00</span>
+                    <span class="price-change up">+1.20%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">2330.TW</strong></td>
+                    <td style="font-weight: 500;">台積電</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>8 次</div>
+                    <div class="badge badge-3m"><span>3M</span>24 次</div>
+                    <div class="badge badge-6m"><span>6M</span>45 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及大盤轉強可能回歸台積電帶頭，且其在AI製程中的關鍵地位，法說會前展望樂觀。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,14.015692349137932 5.7142857142857135,20.129647090517242 11.428571428571427,23.186624461206897 17.142857142857142,33.88604525862069 22.857142857142854,32.357556573275865 28.57142857142857,40.0 34.285714285714285,39.84674329501916 40.0,30.65134099616858 45.71428571428571,20.689655172413794 51.42857142857142,16.85823754789272 57.14285714285714,19.157088122605366 62.85714285714286,15.325670498084293 68.57142857142857,0.0 74.28571428571429,3.0651340996168557 80.0,18.39080459770115 85.71428571428572,18.39080459770115 91.42857142857142,26.053639846743295 97.14285714285714,21.455938697318008 102.85714285714285,15.325670498084293 108.57142857142857,0.7662835249042175 114.28571428571428,6.896551724137929 120.0,9.961685823754788" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="9.961685823754788" r="3" fill="#059669"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">2445.00</span>
+                    <span class="price-change up">+1.09%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">NVDA</strong></td>
+                    <td style="font-weight: 500;">NVIDIA</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>6 次</div>
+                    <div class="badge badge-3m"><span>3M</span>18 次</div>
+                    <div class="badge badge-6m"><span>6M</span>35 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中多次提及AI需求帶動市場，NVIDIA作為AI晶片龍頭，是AI投資的關鍵標的。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,6.368163619970382 6.0,0.0 12.0,20.757742096731246 18.0,15.338694833619083 24.0,16.02755340867152 30.0,27.92193200876402 36.0,21.109844574108763 42.0,20.619975053373633 48.0,9.506323082169704 54.0,17.221581167632923 60.0,21.44662403004807 66.0,12.200535371419761 72.0,15.323395170445252 78.0,28.503646225070895 84.0,30.095675450931296 90.0,35.08609856253241 96.0,40.0 102.0,36.26482665831998 108.0,28.42710119267298 114.0,32.26941889309857 120.0,36.479138734075505" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="36.479138734075505" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">194.83</span>
+                    <span class="price-change down">-9.17%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">TSLA</strong></td>
+                    <td style="font-weight: 500;">Tesla</td>
+                    <td><span class="sentiment-0">中性/觀察</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>3 次</div>
+                    <div class="badge badge-3m"><span>3M</span>9 次</div>
+                    <div class="badge badge-6m"><span>6M</span>24 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及為投資SpaceX而調節部分持股，且目前對其主要投資邏輯已轉移，故評為中性觀察。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,1.2753892542592666 6.0,5.460324101835553 12.0,27.341564606902153 18.0,13.033063349830748 24.0,22.813869505405954 30.0,34.84256503383207 36.0,20.84495632786758 42.0,15.041847645621417 48.0,11.279390961978912 54.0,16.452759779553343 60.0,23.05299890895689 66.0,19.776804447855557 72.0,16.14189155493712 78.0,34.82663118242557 84.0,39.67317359748659 90.0,40.0 96.0,36.34117416672647 102.0,10.729369007321058 108.0,3.7464985057453077 114.0,0.0 120.0,25.388585280770275" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="25.388585280770275" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">393.45</span>
+                    <span class="price-change down">-7.14%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">AAPL</strong></td>
+                    <td style="font-weight: 500;">Apple</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>6 次</div>
+                    <div class="badge badge-3m"><span>3M</span>9 次</div>
+                    <div class="badge badge-6m"><span>6M</span>25 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及蘋果在記憶體漲價背景下上調產品價格，以及其在Edge AI的潛在領導地位，長期看好。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,1.0753888705625627 6.0,0.0 12.0,4.312652778130207 18.0,10.74279140974566 24.0,22.926844121901087 30.0,21.784939142497063 36.0,17.294898796383226 42.0,22.283809958808057 48.0,16.419058252345064 54.0,13.292699637138725 60.0,16.940123660415978 66.0,14.656313701607925 72.0,15.764960626591218 78.0,18.769418153213735 84.0,20.12196875502212 90.0,40.0 96.0,30.432371624079103 102.0,32.69402082434638 108.0,24.246136669288738 114.0,18.68070745261235 120.0,2.882488771600393" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="2.882488771600393" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">308.63</span>
+                    <span class="price-change down">-0.53%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">MSFT</strong></td>
+                    <td style="font-weight: 500;">Microsoft</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>0 次</div>
+                    <div class="badge badge-3m"><span>3M</span>1 次</div>
+                    <div class="badge badge-6m"><span>6M</span>7 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及微軟跌深後有反彈跡象，並作為科技巨頭之一，在AI應用層面仍具潛力。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,0.37755460970809196 6.0,0.0 12.0,6.0515682959612676 18.0,8.67322376703428 24.0,13.102889513954224 30.0,16.320128659056337 36.0,20.05317247705603 42.0,19.840466340393924 48.0,15.04385938220771 54.0,18.19728830915499 60.0,26.131339182873806 66.0,25.870775382595568 72.0,32.283961962164206 78.0,28.774253907706438 84.0,33.28369865575791 90.0,40.0 96.0,29.290074809042 102.0,31.629874769201184 108.0,29.263492627623478 114.0,23.27571832137906 120.0,19.97340970436249" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="19.97340970436249" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">390.49</span>
+                    <span class="price-change down">-8.62%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">GOOGL</strong></td>
+                    <td style="font-weight: 500;">Alphabet (Google)</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>6 次</div>
+                    <div class="badge badge-3m"><span>3M</span>18 次</div>
+                    <div class="badge badge-6m"><span>6M</span>35 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及Google在降本增效、晶片開發及AI模型應用方面表現優異，被視為科技巨頭中較看好的布局點。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,16.145354279781458 6.0,1.4301907987677183 12.0,5.510322877129681 18.0,11.087569996425714 24.0,10.027879427433493 30.0,18.817626333974435 36.0,17.267169336033902 42.0,15.136656851565029 48.0,4.350245944887924 54.0,0.0 60.0,10.55214201827992 66.0,5.822647354177654 72.0,26.2911510901571 78.0,30.250982928531307 84.0,31.18795635967525 90.0,32.95038551222916 96.0,40.0 102.0,21.862815515803447 108.0,17.7133422974146 114.0,13.430020594693033 120.0,14.880091229384028" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="14.880091229384028" r="3" fill="#059669"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">359.91</span>
+                    <span class="price-change up">+0.32%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">MRVL</strong></td>
+                    <td style="font-weight: 500;">Marvell Technology</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>0 次</div>
+                    <div class="badge badge-3m"><span>3M</span>0 次</div>
+                    <div class="badge badge-6m"><span>6M</span>0 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及其ASIC業務表現亮眼，且在光通訊領域也有布局，屬個人操作帶來驚喜的標的。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,8.31037329553169 6.0,0.0 12.0,29.77789817793241 18.0,15.50744268141154 24.0,27.860550024226598 30.0,35.89541573551375 36.0,20.084341595257722 42.0,20.652224224839998 48.0,4.245143580401745 54.0,21.231363267929023 60.0,15.119473917101061 66.0,3.2892921865089946 72.0,4.818671575904325 78.0,21.023325528057274 84.0,22.339038970827485 90.0,19.775081929659855 96.0,27.922408821012944 102.0,21.748660673398636 108.0,10.424502775602495 114.0,24.95361555444164 120.0,40.0" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="40.0" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">245.29</span>
+                    <span class="price-change down">-18.68%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">CRWD</strong></td>
+                    <td style="font-weight: 500;">CrowdStrike</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>1 次</div>
+                    <div class="badge badge-3m"><span>3M</span>5 次</div>
+                    <div class="badge badge-6m"><span>6M</span>10 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及其軟體持股表現良好，是持續看好的標的。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,8.644934626818383 6.0,17.35398436262313 12.0,32.032970822033974 18.0,35.76762000615058 24.0,40.0 30.0,39.14191991202811 36.0,25.769893855946023 42.0,28.435759083750362 48.0,25.348504757378365 54.0,29.446522594052578 60.0,28.386889951261335 66.0,27.806704129273953 72.0,30.68325458730558 78.0,29.009850242761424 84.0,31.422237132712684 90.0,29.703020306224197 96.0,22.850587566514765 102.0,10.080162524346036 108.0,3.9025785829442654 114.0,0.9710643294472874 120.0,0.0" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="0.0" r="3" fill="#059669"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">193.98</span>
+                    <span class="price-change up">+3.79%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">PLTR</strong></td>
+                    <td style="font-weight: 500;">Palantir Technologies</td>
+                    <td><span class="sentiment-0">中性/觀察</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>0 次</div>
+                    <div class="badge badge-3m"><span>3M</span>0 次</div>
+                    <div class="badge badge-6m"><span>6M</span>0 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及估值偏高且近期表現相對疲弱，暫不額外加碼，故評為中性觀察。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,0.0 6.0,0.5725737138638536 12.0,7.638131246116224 18.0,6.561689868282102 24.0,11.600331560858784 30.0,13.730306475374835 36.0,12.734033804791906 42.0,16.272543899596904 48.0,8.577143050600164 54.0,10.24906598345035 60.0,13.249346652556767 66.0,15.722869290103741 72.0,25.994843114706295 78.0,29.20125940705648 84.0,32.86572768107253 90.0,40.0 96.0,33.518461365406054 102.0,30.346406834784183 108.0,29.23561243200327 114.0,18.860570795778827 120.0,14.772394828262176" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="14.772394828262176" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">129.30</span>
+                    <span class="price-change down">-9.07%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">IFX</strong></td>
+                    <td style="font-weight: 500;">Infineon Technologies</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>1 次</div>
+                    <div class="badge badge-3m"><span>3M</span>1 次</div>
+                    <div class="badge badge-6m"><span>6M</span>1 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及IDM廠商（如Infineon）在功率半導體領域的漲價和缺貨現象，直接點名其為缺料核心廠商。</td>
+                    <td class="trend-cell">-</td>
+                    <td><span style='color: #94a3b8;'>無報價</span></td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">STM</strong></td>
+                    <td style="font-weight: 500;">STMicroelectronics</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>1 次</div>
+                    <div class="badge badge-3m"><span>3M</span>1 次</div>
+                    <div class="badge badge-6m"><span>6M</span>1 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及IDM廠商（如ST）在功率半導體領域的漲價和缺貨現象，直接點名其為缺料核心廠商。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,0.6966893619512078 6.0,5.399322600299584 12.0,32.012723194687226 18.0,17.06879624530064 24.0,22.95581470218093 30.0,31.94306756170696 36.0,6.235323228211328 42.0,9.091736308996431 48.0,3.344108937365803 54.0,18.671168474573566 60.0,22.816476829790687 66.0,5.294812544399477 72.0,0.0 78.0,25.771573158369453 84.0,27.8291281871177 90.0,17.22755681137904 96.0,29.29381214264239 102.0,17.54140625623588 108.0,17.192675782029486 114.0,31.734952068516876 120.0,40.0" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="40.0" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">68.35</span>
+                    <span class="price-change down">-14.15%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">ON</strong></td>
+                    <td style="font-weight: 500;">Onsemi</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>9 次</div>
+                    <div class="badge badge-3m"><span>3M</span>26 次</div>
+                    <div class="badge badge-6m"><span>6M</span>50 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及IDM廠商（如安森美）在功率半導體領域的漲價和缺貨現象，直接點名其為缺料核心廠商。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,0.0 6.0,1.8606575644297934 12.0,14.700170299011425 18.0,11.49029379733156 24.0,14.929449114234895 30.0,20.952379350509005 36.0,15.846557647266593 42.0,15.114633520732326 48.0,7.081122039215025 54.0,13.827156174705763 60.0,18.527334883544913 66.0,10.855371987704832 72.0,2.098756606970909 78.0,14.876541206053396 84.0,16.040562281081673 90.0,13.39505922621175 96.0,38.1657829339366 102.0,40.0 108.0,34.73544784435091 114.0,34.65608598207866 120.0,37.6631376226258" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="37.6631376226258" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">91.22</span>
+                    <span class="price-change down">-31.89%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">VSH</strong></td>
+                    <td style="font-weight: 500;">Vishay Intertechnology</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>1 次</div>
+                    <div class="badge badge-3m"><span>3M</span>1 次</div>
+                    <div class="badge badge-6m"><span>6M</span>1 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及Vshare（即Vishay）作為被動元件與功率半導體的綜合體，其元件リードタイム拉長，具雙重受惠潛力。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,2.1834213848916306 6.0,2.81462705009794 12.0,16.427418061402545 18.0,16.385339827562852 24.0,13.523915414228217 30.0,21.79258582162897 36.0,13.481845219791243 42.0,11.840729784821367 48.0,2.7094153866932587 54.0,9.673620348049859 60.0,9.841933283408643 66.0,0.0 72.0,1.3277234381148872 78.0,12.518443394766429 84.0,19.620652743225094 90.0,10.516334659432811 96.0,18.018970578599834 102.0,18.166493618523106 108.0,23.435196585504876 114.0,28.851422592409918 120.0,40.0" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="40.0" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">45.92</span>
+                    <span class="price-change down">-28.10%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">LITE</strong></td>
+                    <td style="font-weight: 500;">Lumentum Holdings</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>0 次</div>
+                    <div class="badge badge-3m"><span>3M</span>0 次</div>
+                    <div class="badge badge-6m"><span>6M</span>0 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及美股光通訊公司表現，Lumentum為主持人較喜歡的光通訊標的。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,3.361871688051991 6.0,2.1247552074654266 12.0,16.351568071988 18.0,10.80551641393101 24.0,23.6728971838027 30.0,18.16879053491085 36.0,11.820717880353271 42.0,6.234491584735878 48.0,0.0 54.0,14.307183469421766 60.0,15.247250791534746 66.0,18.73842359606732 72.0,11.062380269955007 78.0,22.59654324279287 84.0,20.04367805365772 90.0,16.646868188635228 96.0,24.508128645225796 102.0,18.493792367938674 108.0,17.330071654724215 114.0,27.27241459756707 120.0,40.0" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="40.0" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">728.32</span>
+                    <span class="price-change down">-22.35%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">COHR</strong></td>
+                    <td style="font-weight: 500;">Coherent Corp</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>0 次</div>
+                    <div class="badge badge-3m"><span>3M</span>0 次</div>
+                    <div class="badge badge-6m"><span>6M</span>0 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及美股光通訊公司表現，Coherent為主持人較喜歡的光通訊標的。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,3.4954477075216275 6.0,1.554501126188427 12.0,21.055148614137266 18.0,10.225797549782367 24.0,30.19539261555647 30.0,30.70343130515615 36.0,26.877988358136864 42.0,17.56404730819598 48.0,5.0542819840660655 54.0,18.528007622104234 60.0,20.247499742429326 66.0,15.592702418249054 72.0,0.0 78.0,19.21840966093761 84.0,14.320452370296188 90.0,7.915764617177096 96.0,19.50499388952918 102.0,14.876248472382297 108.0,13.465046086101818 114.0,24.67650945524548 120.0,40.0" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="40.0" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">333.36</span>
+                    <span class="price-change down">-20.14%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">NOK</strong></td>
+                    <td style="font-weight: 500;">Nokia Corp</td>
+                    <td><span class="sentiment-0">中性/觀察</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>1 次</div>
+                    <div class="badge badge-3m"><span>3M</span>1 次</div>
+                    <div class="badge badge-6m"><span>6M</span>1 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及Nokia在光線傳輸領域有轉機，但近期未再深入關注，故評為中性觀察。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,0.0 6.0,0.944194906478522 12.0,20.17166956861994 18.0,18.36909407485812 24.0,24.72102364866801 30.0,28.583691268190417 36.0,22.660939708953325 42.0,16.566518581096293 48.0,16.39484901247635 54.0,23.605150987523647 60.0,24.892701403333852 66.0,27.811157744285936 72.0,19.742483368001235 78.0,26.008582250524114 84.0,25.06437097195379 90.0,23.605150987523647 96.0,31.931325623715303 102.0,31.759656055095363 108.0,29.613733238047757 114.0,32.789698024952706 120.0,40.0" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="40.0" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">12.07</span>
+                    <span class="price-change down">-27.85%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">2327.TW</strong></td>
+                    <td style="font-weight: 500;">國巨</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>5 次</div>
+                    <div class="badge badge-3m"><span>3M</span>11 次</div>
+                    <div class="badge badge-6m"><span>6M</span>18 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中多次提及被動元件強勢，國巨作為產業龍頭，表現尤其突出，修正中仍堅挺。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,32.39843839608494 5.7142857142857135,40.0 11.428571428571427,37.433239490639906 17.142857142857142,39.21022846923127 22.857142857142854,31.806106713646678 28.57142857142857,32.49715832025018 34.285714285714285,30.226563652109213 40.0,28.337539970129743 45.71428571428571,19.88599296149456 51.42857142857142,18.89169331341983 57.14285714285714,15.511074509965752 62.85714285714286,5.965797888448364 68.57142857142857,7.457247360560459 74.28571428571429,11.931595776896735 80.0,8.948696832672553 85.71428571428572,1.4914494721120946 91.42857142857142,12.4287456009341 97.14285714285714,9.94299648074728 102.85714285714285,0.0 108.57142857142857,0.0 114.28571428571428,8.451547008635188 120.0,9.445846656709914" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="9.445846656709914" r="3" fill="#059669"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">1045.00</span>
+                    <span class="price-change up">+28.35%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">2492.TW</strong></td>
+                    <td style="font-weight: 500;">華新科</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>0 次</div>
+                    <div class="badge badge-3m"><span>3M</span>2 次</div>
+                    <div class="badge badge-6m"><span>6M</span>3 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及被動元件漲價潮持續，華新科為代表性受惠標的之一。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,34.48888888888889 5.7142857142857135,40.0 11.428571428571427,35.733333333333334 17.142857142857142,38.577777777777776 22.857142857142854,31.46666666666667 28.57142857142857,37.24444444444445 34.285714285714285,35.46666666666667 40.0,36.977777777777774 45.71428571428571,29.77777777777778 51.42857142857142,21.866666666666667 57.14285714285714,13.333333333333336 62.85714285714286,9.955555555555556 68.57142857142857,0.0 74.28571428571429,7.111111111111114 80.0,4.799999999999997 85.71428571428572,3.1999999999999957 91.42857142857142,13.68888888888889 97.14285714285714,18.31111111111111 102.85714285714285,9.244444444444447 108.57142857142857,2.488888888888887 114.28571428571428,9.955555555555556 120.0,9.600000000000001" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="9.600000000000001" r="3" fill="#059669"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">563.00</span>
+                    <span class="price-change up">+33.10%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">6138.TW</strong></td>
+                    <td style="font-weight: 500;">茂達</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>0 次</div>
+                    <div class="badge badge-3m"><span>3M</span>0 次</div>
+                    <div class="badge badge-6m"><span>6M</span>1 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及功率元件缺貨與漲價趨勢，茂達為台灣功率IC設計代表性標的，故關聯此標的。</td>
+                    <td class="trend-cell">-</td>
+                    <td><span style='color: #94a3b8;'>無報價</span></td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">6435.TW</strong></td>
+                    <td style="font-weight: 500;">大中</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>0 次</div>
+                    <div class="badge badge-3m"><span>3M</span>0 次</div>
+                    <div class="badge badge-6m"><span>6M</span>0 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及功率元件缺貨與漲價趨勢，大中為台灣MOSFET代表性標的，故關聯此標的。</td>
+                    <td class="trend-cell">-</td>
+                    <td><span style='color: #94a3b8;'>無報價</span></td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">8046.TW</strong></td>
+                    <td style="font-weight: 500;">南電</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>1 次</div>
+                    <div class="badge badge-3m"><span>3M</span>1 次</div>
+                    <div class="badge badge-6m"><span>6M</span>1 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及ABF載板因南電上修展望而轉強，其與AI高速運算需求相關，故關聯此代表性標的。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,29.8025379844079 5.7142857142857135,32.53587858363868 11.428571428571427,36.00511956420047 17.142857142857142,37.476920326862505 22.857142857142854,28.751259073932438 28.57142857142857,35.794865068104926 34.285714285714285,40.0 40.0,38.738460163431256 45.71428571428571,34.42819476848954 51.42857142857142,30.012798910501182 57.14285714285714,31.799984632305403 62.85714285714286,32.956394005827505 68.57142857142857,34.00767934630071 74.28571428571429,29.276898529170168 80.0,24.440987248992982 85.71428571428572,14.748871615771627 91.42857142857142,6.320944978187839 97.14285714285714,11.061653711828718 102.85714285714285,0.0 108.57142857142857,1.0534908296979708 114.28571428571428,4.21396331879189 120.0,0.0" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="0.0" r="3" fill="#059669"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">1185.00</span>
+                    <span class="price-change up">+31.36%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">2318.TW</strong></td>
+                    <td style="font-weight: 500;">景碩</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>0 次</div>
+                    <div class="badge badge-3m"><span>3M</span>0 次</div>
+                    <div class="badge badge-6m"><span>6M</span>0 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及ABF載板因AI需求持續強勁，故關聯此代表性標的。</td>
+                    <td class="trend-cell">-</td>
+                    <td><span style='color: #94a3b8;'>無報價</span></td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">2303.TW</strong></td>
+                    <td style="font-weight: 500;">聯電</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>1 次</div>
+                    <div class="badge badge-3m"><span>3M</span>3 次</div>
+                    <div class="badge badge-6m"><span>6M</span>6 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及功率元件製造可能需要6吋或8吋晶圓代工廠的產能支持，聯電為代表性晶圓代工廠之一，故關聯此標的。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,32.0 5.7142857142857135,35.666666666666664 11.428571428571427,31.333333333333332 17.142857142857142,38.333333333333336 22.857142857142854,34.0 28.57142857142857,40.0 34.285714285714285,35.666666666666664 40.0,30.0 45.71428571428571,24.666666666666664 51.42857142857142,25.0 57.14285714285714,25.666666666666664 62.85714285714286,22.0 68.57142857142857,12.333333333333336 74.28571428571429,5.666666666666671 80.0,0.3333333333333286 85.71428571428572,0.0 91.42857142857142,9.666666666666668 97.14285714285714,9.666666666666668 102.85714285714285,9.333333333333332 108.57142857142857,6.333333333333336 114.28571428571428,8.666666666666668 120.0,5.333333333333329" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="5.333333333333329" r="3" fill="#059669"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">170.50</span>
+                    <span class="price-change up">+30.65%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">2444.TW</strong></td>
+                    <td style="font-weight: 500;">京元電</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>1 次</div>
+                    <div class="badge badge-3m"><span>3M</span>2 次</div>
+                    <div class="badge badge-6m"><span>6M</span>2 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中直接提及京元電(KYEC)為NVIDIA封測廠商，且封測產業因AI需求而受惠。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,7.692306563699198 5.7142857142857135,6.153839382195201 11.428571428571427,6.153839382195201 17.142857142857142,18.46151814658559 22.857142857142854,15.384613127398403 28.57142857142857,23.0769196910976 34.285714285714285,27.69229189178879 40.0,23.0769196910976 45.71428571428571,3.076905019187194 51.42857142857142,21.538452509593597 57.14285714285714,0.0 62.85714285714286,9.230773745203201 68.57142857142857,9.230773745203201 74.28571428571429,21.538452509593597 80.0,18.46151814658559 85.71428571428572,23.0769196910976 91.42857142857142,40.0 97.14285714285714,35.38459845548799 102.85714285714285,24.6153868726016 108.57142857142857,32.3076934363008 114.28571428571428,30.7692262547968 120.0,24.6153868726016" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="24.6153868726016" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">12.90</span>
+                    <span class="price-change down">-4.09%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">2311.TW</strong></td>
+                    <td style="font-weight: 500;">日月光投控</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>0 次</div>
+                    <div class="badge badge-3m"><span>3M</span>0 次</div>
+                    <div class="badge badge-6m"><span>6M</span>0 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及封測產業因AI需求而受惠，日月光為全球最大OSAT廠商，故關聯此代表性標的。</td>
+                    <td class="trend-cell">-</td>
+                    <td><span style='color: #94a3b8;'>無報價</span></td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">3081.TW</strong></td>
+                    <td style="font-weight: 500;">聯亞</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>0 次</div>
+                    <div class="badge badge-3m"><span>3M</span>0 次</div>
+                    <div class="badge badge-6m"><span>6M</span>1 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及光通訊產業雖資金未集中，但SemiAnalysis推出ETF顯示仍有潛在機會，聯亞為光通訊關鍵元件供應商，故關聯此代表性標的。</td>
+                    <td class="trend-cell">-</td>
+                    <td><span style='color: #94a3b8;'>無報價</span></td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">6414.TW</strong></td>
+                    <td style="font-weight: 500;">樺漢</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>0 次</div>
+                    <div class="badge badge-3m"><span>3M</span>0 次</div>
+                    <div class="badge badge-6m"><span>6M</span>0 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及工業電腦與機器人相關類股有萌芽階段的機會，樺漢為工業電腦龍頭，故關聯此代表性標的。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,22.068985093952968 5.7142857142857135,15.862095318782842 11.428571428571427,23.44829393287966 17.142857142857142,40.0 22.857142857142854,0.0 28.57142857142857,17.931058577172884 34.285714285714285,8.27589670468602 40.0,35.17241906375657 45.71428571428571,26.8965660301964 51.42857142857142,27.92087228706778 57.14285714285714,22.91231820529141 62.85714285714286,5.024625056090102 68.57142857142857,7.886655959962312 74.28571428571429,12.895210041738679 80.0,22.19681047932336 85.71428571428572,18.6192718494831 91.42857142857142,35.79145727271636 97.14285714285714,37.937980450620515 102.85714285714285,24.343333657227518 108.57142857142857,22.91231820529141 114.28571428571428,18.6192718494831 120.0,15.757240945610889" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="15.757240945610889" r="3" fill="#059669"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">375.50</span>
+                    <span class="price-change up">+1.19%</span>
+                </div>
+                </td>
+                </tr>
+            
+                <tr>
+                    <td><strong class="ticker">MU</strong></td>
+                    <td style="font-weight: 500;">Micron Technology</td>
+                    <td><span class="sentiment-1">看多/受惠</span></td>
+                    <td>
+                <div class="badge-container">
+                    <div class="badge badge-1m"><span>1M</span>5 次</div>
+                    <div class="badge badge-3m"><span>3M</span>11 次</div>
+                    <div class="badge badge-6m"><span>6M</span>20 次</div>
+                </div>
+            </td>
+                    <td class="reason-cell">節目中提及美光財報強勁，毛利率高，記憶體漲價受益者。</td>
+                    <td class="trend-cell">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,15.332867239342992 6.0,24.8960123819894 12.0,40.0 18.0,30.24231067143377 24.0,31.774567891059725 30.0,36.810757691423895 36.0,24.910889208154735 42.0,26.542702427856124 48.0,14.369337813609434 54.0,22.062654486759975 60.0,19.49593401673608 66.0,9.105427806534209 72.0,0.24946970749924446 78.0,18.51409142752576 84.0,18.887143558578728 90.0,0.0 96.0,9.295390209372123 102.0,7.813476728243685 108.0,6.782435846306321 114.0,20.744386093450217 120.0,27.23501962972767" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="27.23501962972767" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                    <td>
+                <div class="price-block">
+                    <span class="price-val">975.56</span>
+                    <span class="price-change down">-9.63%</span>
+                </div>
+                </td>
+                </tr>
+            </tbody></table>
+        </div>
         </div>
     </body>
     </html>
