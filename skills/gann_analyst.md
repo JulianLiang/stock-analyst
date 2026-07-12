@@ -1,11 +1,11 @@
 ---
 name: gann-analysis
-description: Use this skill for W.D. Gann technical analysis on stocks, indices, futures, forex, or any traded instrument — Gann angles/fan lines, Square of 9, Square of 144, Gann time cycles, and price-time symmetry projections. Applies to individual stocks as well as macro/index-level analysis (e.g. S&P 500, Dow, Hang Seng, TAIEX) — not to raw macroeconomic data series like GDP/CPI/interest rates themselves. Trigger this whenever the user mentions "江恩", "Gann", "Gann angles/fan", "Square of 9", "Square of 144", asks for support/resistance levels derived from a pivot high/low (for a stock OR an index/大盤), asks for time-cycle turning-point dates, or wants a price-time forecast using geometric/numerological methods rather than standard indicators (MA, RSI, MACD). Also use when the user gives a price and/or date and asks "what are the next Gann levels" or "when is the next time cycle turn."
+description: Use this skill for W.D. Gann technical analysis on stocks, indices, futures, forex, or any traded instrument — Gann angles/fan lines, Square of 9, Square of 144, Gann time cycles, price-time symmetry projections, and percentage retracements (eighths/thirds). Trigger this whenever the user mentions "江恩", "Gann", "Gann angles/fan", "Square of 9", "Square of 144", "retracement", "回檔", asks for support/resistance levels derived from a pivot high/low (for a stock OR an index/大盤), asks for time-cycle turning-point dates, or wants a price-time forecast using geometric/numerological methods rather than standard indicators (MA, RSI, MACD). Also use when the user gives a price and/or date and asks "what are the next Gann levels" or "when is the next time cycle turn."
 ---
 
 # 江恩分析 (W.D. Gann Analysis)
 
-本 skill 提供 W.D. Gann 技術分析方法論的完整工具組，包括江恩角度線、江恩正方形（Square of 9 / Square of 144）、時間週期分析，以及價格-時間對稱預測。
+本 skill 提供 W.D. Gann 技術分析方法論的完整工具組，包括江恩角度線、江恩正方形（Square of 9 / Square of 144）、時間週期分析、價格-時間對稱預測，以及江恩百分比回檔位。
 
 ## 核心原則（先讀這段再動手）
 
@@ -15,6 +15,7 @@ description: Use this skill for W.D. Gann technical analysis on stocks, indices,
 2. **一切依附在一個「有效樞紐點」(pivot) 上**：所有計算都從一個關鍵高點、低點，或使用者指定的起始價/起始日期開始。**沒有明確的樞紐點，江恩分析就無法進行** —— 這是第一個必須跟使用者確認的東西。
 3. **這是一套機率/機率性框架，不是精確預測工具**：在輸出結果時，適度提醒這些是「潛在關注位」而非保證會發生的價位或日期，避免使用者誤解為確定性預測。
 4. **正方形類方法（Square of 9 / 144）對「起始數字」和「刻度單位」高度敏感**：同一檔標的用不同起始點或不同刻度（1點/1檔/1%），算出來的關鵗價位會完全不同。務必先確認使用者要用什麼基準。
+5. **百分比回檔的絕對性**：江恩認為最重要的回檔位階是 50%，其次是 3/8 (37.5%) 與 5/8 (62.5%)。這些位階反映了波動能量的平衡狀態。
 
 ## 開始前先確認三件事
 
@@ -36,13 +37,14 @@ description: Use this skill for W.D. Gann technical analysis on stocks, indices,
 - **純經濟數據（GDP、CPI、失業率、利率等指標數字本身，而非追蹤這些指標的可交易商品）**：**不建議套用**。原因是江恩的支撐/壓力/角度線概念，前提是「這是一個有人在買賣、會因資金流與心理反應在特定價位有反應」的市場價格；經濟數據本身沒有這種市場機制，Square of 9 的平方根旋轉法雖然數學上可以套在任何數字，但脫離價格意義後解釋力很薄弱。遇到使用者想拿裸經濟數據做江恩分析時，可以說明這個限制，並詢問是否其實是想分析「反映該總經數據的某個指數或商品」（例如用美國十年期公債殖利率的價格走勢，而非只是利率決策的百分比數字本身）。
 - **總經事件作為樞紐點觸發因子**：這完全沒問題，而且是常見做法。例如「FOMC 決議後大盤創新高」可以拿這個高點當樞紐點，只是後續計算對象仍是該指數/商品的價格，而不是利率數字本身。
 
-## 三大工具總覽
+## 四大工具總覽
 
 | 工具 | 用途 | 需要輸入 | 詳細方法見 |
 |---|---|---|---|
 | 江恩角度線 (Gann Fan) | 由樞紐點畫出多條不同斜率的趨勢線，作為動態支撐/壓力 | 樞紐價格、樞紐日期、價格/時間刻度單位 | `references/gann_angles.md` |
 | 正方形 (Square of 9 / 144) | 由基準數字算出等角度分佈的價位，作為靜態支撐/壓力目標價 | 基準價格（樞紐高點或低點） | `references/square_of_9.md` |
 | 時間週期 (Time Cycles) | 由樞紐日期往後推算可能的轉折日期 | 樞紐日期 | `references/time_cycles.md` |
+| 百分比回檔 (Retracements) | 基於波段高低點分割出的 1/8 與 1/3 位階支撐壓力 | 波段最高點與最低點 | `references/percentage_retracements.md` |
 
 **執行順序建議**：先讀對應的 reference 檔案取得完整公式與細節，再進行計算。三份 reference 檔案彼此獨立，只讀使用者需要的部分即可，不用每次都全讀。
 

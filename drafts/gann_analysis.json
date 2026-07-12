@@ -3,56 +3,73 @@
     "symbol": "2330.TW",
     "name": "台積電",
     "current_price": 2445.0,
-    "pivots": {
-      "primary": {
-        "price": 346.54,
-        "date": "2022-10-26"
-      },
-      "secondary": {
-        "price": 1001.65,
-        "date": "2025-06-23"
-      }
+    "baseline": {
+      "price": 766.49,
+      "date": "2025-04-09"
     },
     "levels": [
       {
-        "angle": 1035,
-        "price": 2483.22,
-        "status": "resistance"
-      },
-      {
-        "angle": 1080,
-        "price": 2562.64,
-        "status": "resistance"
-      },
-      {
-        "angle": 1125,
-        "price": 2643.3,
-        "status": "resistance"
-      },
-      {
-        "angle": 1170,
-        "price": 2725.22,
-        "status": "resistance"
-      },
-      {
-        "angle": 1215,
-        "price": 2808.39,
-        "status": "resistance"
-      },
-      {
         "angle": 1260,
-        "price": 2892.8,
-        "status": "resistance"
+        "price": 2482.18,
+        "status": "pivot"
       },
       {
         "angle": 1305,
-        "price": 2978.47,
+        "price": 2561.58,
         "status": "resistance"
       },
       {
         "angle": 1350,
-        "price": 3065.38,
+        "price": 2642.23,
         "status": "resistance"
+      },
+      {
+        "angle": 1395,
+        "price": 2724.13,
+        "status": "resistance"
+      },
+      {
+        "angle": 1440,
+        "price": 2807.28,
+        "status": "resistance"
+      },
+      {
+        "angle": 1485,
+        "price": 2891.68,
+        "status": "resistance"
+      },
+      {
+        "angle": 1530,
+        "price": 2977.33,
+        "status": "resistance"
+      },
+      {
+        "angle": 1575,
+        "price": 3064.23,
+        "status": "resistance"
+      }
+    ],
+    "retracements": {
+      "12.5% (1/8)": 2313.94,
+      "25.0% (2/8)": 2092.87,
+      "37.5% (3/8)": 1871.81,
+      "50.0% (4/8)": 1650.74
+    },
+    "pyramiding": [
+      {
+        "level": "激進加碼",
+        "price": "9459~9613",
+        "desc": "站穩 3960° 基本角後追擊"
+      },
+      {
+        "level": "穩健加碼",
+        "price": "9154",
+        "desc": "回測 3870° 基本角支撐"
+      },
+      {
+        "level": "重倉加碼",
+        "price": "2314",
+        "desc": "波段 1/8 強勢回檔位"
       }
     ]
   },
@@ -60,15 +77,9 @@
     "symbol": "0050.TW",
     "name": "元大台灣50",
     "current_price": 108.35,
-    "pivots": {
-      "primary": {
-        "price": 21.84,
-        "date": "2022-10-26"
-      },
-      "secondary": {
-        "price": 45.32,
-        "date": "2025-06-23"
-      }
+    "baseline": {
+      "price": 45.31656111464886,
+      "date": "2025-06-23"
     },
     "levels": [
       {
@@ -111,6 +122,13 @@
         "price": 137.63,
         "status": "resistance"
       }
-    ]
+    ],
+    "retracements": {
+      "12.5% (1/8)": 103.93,
+      "25.0% (2/8)": 95.55,
+      "37.5% (3/8)": 87.18,
+      "50.0% (4/8)": 78.81
+    },
+    "pyramiding": []
   }
 ]

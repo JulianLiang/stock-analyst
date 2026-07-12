@@ -11,7 +11,7 @@
                 --primary: #1e3a8a; --secondary: #3b82f6; --bg: #f4f4f5; --card-bg: #ffffff;
                 --text: #1f2937; --text-light: #6b7280; --positive: #059669; --negative: #dc2626;
                 --neutral: #d97706; --border: #e5e7eb;
-                --gann-gold: #854d0e;
+                --gann-gold: #854d0e; --gann-bg: #fffdf2;
             }
             body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.7; margin: 0; padding: 2rem; }
             .container { max-width: 1400px; margin: 0 auto; }
@@ -21,71 +21,106 @@
                 border-radius: 24px; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); 
             }
             h1 { margin: 0 0 0.5rem 0; font-size: 3rem; font-weight: 800; letter-spacing: 1px; }
-            .header-section p { color: #9ca3af; font-size: 1.2rem; }
             
             .section { background: var(--card-bg); border-radius: 20px; padding: 2.5rem; margin-bottom: 3rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); }
             .section-title { border-bottom: 4px solid var(--primary); padding-bottom: 0.75rem; margin-top: 0; margin-bottom: 2rem; color: var(--berkshire-navy); font-size: 1.8rem; font-weight: 800; }
             
-            .content-box { background-color: #f8fafc; border-left: 6px solid var(--primary); padding: 2rem; margin-bottom: 2rem; border-radius: 0 12px 12px 0; }
+            .content-box { background-color: #f8fafc; border-left: 6px solid var(--primary); padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 0 12px 12px 0; }
             .content-box.strategy { border-left-color: var(--neutral); background-color: #fffbeb; }
             .content-box.perspective { border-left-color: var(--secondary); background-color: #eff6ff; }
-            .content-box h4 { margin-top: 0; color: var(--primary); font-size: 1.4rem; margin-bottom: 1rem; font-weight: 700; }
-            .content-box.strategy h4 { color: var(--neutral); }
-            .content-box.perspective h4 { color: var(--secondary); }
-            .content-box p { margin: 0; font-size: 1.1rem; color: #374151; white-space: pre-wrap; }
+            .content-box h4 { margin-top: 0; color: var(--primary); font-size: 1.2rem; margin-bottom: 0.5rem; font-weight: 700; }
+            .content-box p { margin: 0; font-size: 1.05rem; color: #374151; white-space: pre-wrap; }
             
-            table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 1.5rem; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+            table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 1rem; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
             th, td { padding: 1.25rem 1rem; text-align: left; border-bottom: 1px solid var(--border); vertical-align: middle; }
-            th { background-color: #f9fafb; font-weight: 700; color: var(--berkshire-navy); font-size: 1rem; }
-            tr:last-child td { border-bottom: none; }
-            tr:hover { background-color: #f9fafb; }
+            th { background-color: #f9fafb; font-weight: 700; color: var(--berkshire-navy); }
             
+            /* Gann Card Styles */
+            .gann-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; }
+            .gann-card { border: 1px solid #fde68a; border-radius: 20px; padding: 2rem; background: var(--gann-bg); position: relative; overflow: hidden; }
+            .gann-card::before { content: "GANN"; position: absolute; top: -10px; right: -10px; font-size: 5rem; font-weight: 900; color: rgba(133, 77, 14, 0.05); transform: rotate(-15deg); }
+            .gann-header { font-weight: 800; font-size: 1.4rem; color: var(--gann-gold); margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+            
+            .gann-sub-section { margin-bottom: 1.5rem; }
+            .gann-sub-title { font-size: 0.9rem; font-weight: 800; text-transform: uppercase; color: #a16207; border-bottom: 1px solid #fef08a; margin-bottom: 0.8rem; padding-bottom: 0.3rem; }
+            
+            .retracement-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+            .retracement-item { background: white; padding: 10px; border-radius: 8px; border: 1px solid #fef08a; display: flex; justify-content: space-between; }
+            .retracement-label { font-size: 0.85rem; color: var(--text-light); }
+            .retracement-val { font-weight: 700; color: var(--berkshire-navy); }
+            
+            .pyramiding-item { background: #166534; color: white; padding: 12px; border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+            .pyramiding-level { font-size: 0.8rem; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px; }
+            
+            .status-pivot { color: var(--gann-gold); font-weight: bold; background: #fef9c3; padding: 2px 6px; border-radius: 4px; }
             .sentiment-1 { color: var(--positive); font-weight: bold; background: #d1fae5; padding: 6px 12px; border-radius: 8px; }
-            .sentiment-0 { color: var(--neutral); font-weight: bold; background: #fef3c7; padding: 6px 12px; border-radius: 8px; }
-            .sentiment--1 { color: var(--negative); font-weight: bold; background: #fee2e2; padding: 6px 12px; border-radius: 8px; }
-            
-            .ticker-box { background: #f3f4f6; padding: 4px 8px; border-radius: 6px; font-family: monospace; font-weight: 700; font-size: 0.9rem; color: #4b5563; }
-            .reason-cell { max-width: 400px; line-height: 1.6; color: #4b5563; font-size: 0.95rem; }
-            
-            .badge-container { display: flex; gap: 8px; }
-            .badge { padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; }
-            .badge-1m { background: #fee2e2; color: #b91c1c; }
-            .badge-3m { background: #fef3c7; color: #b45309; }
-            .badge-6m { background: #e0f2fe; color: #0369a1; }
-            
-            .gann-card { border: 1px solid #fde68a; border-radius: 16px; padding: 1.5rem; background: #fffdf2; }
-            .gann-header { font-weight: 800; font-size: 1.3rem; color: var(--gann-gold); margin-bottom: 1rem; }
         </style>
     </head>
     <body>
         <div class="container">
             <div class="header-section">
                 <h1>AI Berkshire 終極投研報告</h1>
-                <p>四大師對抗矩陣 ｜ 數據源：whatmkreallysaid.com ｜ 近 14 天雙週特輯</p>
-                <p>報告產生時間: 2026-07-05 20:38:40</p>
+                <p>四大師核心對抗 ｜ 數據源：whatmkreallysaid.com ｜ 核心趨勢與江恩幾何雙週刊</p>
+                <p>報告產生時間: 2026-07-05 21:28:40</p>
             </div>
             
             <div class="section">
                 <h2 class="section-title">🕵️‍♂️ 四大師總經與產業對抗綜述</h2>
-                <div class="content-box"><h4>📉 宏觀經濟與護城河檢視</h4><p>當前市場由AI需求強勁驅動，半導體供應鏈（被動元件、功率元件、封測）因需求旺盛而出現顯著的價格上漲和利潤擴張。近期市場修正主要歸因於漲多拉回或大型基金的季度性資產再平衡，而非基本面惡化或重大地緣政治衝擊。主持人強調AI的長期趨勢穩固，但對追逐已飆漲的個股保持謹慎。科技巨頭如Apple和Google正積極適應新環境，Apple藉記憶體漲價提高產品售價，Google則專注於降本增效及AI部署。整體而言，市場仍處於多頭，但需關注資金流向與個股型態，警惕過高估值與供應鏈中「成本驅動」而非「需求驅動」的漲價模式。</p></div>
-                <div class="content-box strategy"><h4>🎯 四大師建議策略</h4><p>投資策略應積極尋找修正後率先轉強的族群，尤其關注具備真實需求而非僅成本轉嫁的個股。從被動元件和功率元件的初步強勢後，市場資金可能轉向IC設計及核心基礎設施如台積電。長期配置上，大型科技股（Google、Apple）和指數型ETF（如0050）仍是穩健選擇。操作上建議避免過度槓桿與情緒化交易，並持續學習、調整策略，保持謙遜態度應對市場變化。對於資金未明顯流入的板塊（如光通訊），即使基本面良好，也應暫緩投入。</p></div>
-                <div class="content-box perspective"><h4>💡 核心投資觀點 (QA 心法)</h4><p>市場在牛市中，勿過度解釋每次下跌，避免情緒化追高殺低。主持人強調持續學習、適應市場的重要性，並以「一天太長，一年太短」比喻市場的快速變化。他建議投資者應專注於長期趨勢，同時做好風險管理，不應讓自己因短線波動而「失去勇氣」。對於個人資產累積，他認為應追求生活平衡，善待家人，並鼓勵自我獨立與為自己負責的價值觀，不被過度依賴或外部雜音影響決策。</p></div>
+                <div class="content-box"><h4>📉 宏觀經濟與護城河檢視</h4><p>2026年上半年市場表現強勁，以科技股與AI驅動為主。近期市場修正歸因於大型基金的季度再平衡，而非戰爭或激進升息等重大宏觀事件。AI需求來自科技巨頭，帶動被動元件、功率元件、封裝等關鍵零組件價格上漲。對於AI泡沫論保持審慎樂觀，但需關注科技巨頭股東是否會因價值多由供應鏈廠商獲取而產生不滿。終端消費市場的實際力道仍待觀察，財富效應可能在市場震盪後才會轉化為消費支出。總體而言，產業趨勢維持不變，市場信心短期受挫但未見根本性反轉。</p></div>
+                <div class="content-box strategy"><h4>🎯 四大師建議策略</h4><p>建議在修正後尋找新的領頭羊。重點關注由實際需求而非單純成本轉嫁驅動漲價的被動元件、功率元件和封裝領域。IC設計需仔細辨別需求成長與PE估值上修的差異。長線佈局上，看好Google和Apple等巨頭在AI應用層面的潛力。市場修正時應執行「汰弱留強」策略，淘汰未能跟隨大盤反彈或跌破關鍵均線的個股。避免過度槓桿與短線情緒化交易，保持現金部位以應對潛在的資金面壓力。</p></div>
+                <div class="content-box perspective"><h4>💡 核心投資觀點 (QA 心法)</h4><p>市場修正為常態，提供「汰弱留強」的機會，下跌時的鬼故事多半曇花一現。投資應聚焦於長期趨勢（如AI與文明演進），並相信市場的適應能力。個人投資應保持謙卑，承認市場的不可預測性。投資策略無絕對對錯，關鍵在於執行者的知識與信念。建議善待家人，因市場震盪的金額可能遠超家庭開支，平衡投資與生活至關重要。財富累積是一場接力賽，長期持續參與市場比短期追漲殺跌更為關鍵。</p></div>
             </div>
 
             <div class="section">
-                <h2 class="section-title">📐 江恩幾何技術預測</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <h2 class="section-title" style="color: var(--gann-gold);">📐 江恩幾何技術預測與加碼策略</h2>
+                <div class="gann-container">
                 
                     <div class="gann-card">
-                        <div class="gann-header">台積電 <span style="font-size: 0.9rem; font-weight: normal;">(2330.TW)</span></div>
-                        <div style="margin-bottom: 1rem; font-weight: bold;">現價: 2445.0</div>
-                        <div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>1035°</span><span style="font-weight:bold;">2483.22</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>1080°</span><span style="font-weight:bold;">2562.64</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>1125°</span><span style="font-weight:bold;">2643.3</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>1170°</span><span style="font-weight:bold;">2725.22</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>1215°</span><span style="font-weight:bold;">2808.39</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>1260°</span><span style="font-weight:bold;">2892.8</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>1305°</span><span style="font-weight:bold;">2978.47</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>1350°</span><span style="font-weight:bold;">3065.38</span></div>
+                        <div class="gann-header">
+                            <span>台積電 (2330.TW)</span>
+                            <span style="font-size: 1rem; color: var(--text);">現價: 2445.0</span>
+                        </div>
+                        
+                        <div class="gann-sub-section">
+                            <div class="gann-sub-title">💎 核心加碼點位建議 (Gann Pyramiding)</div>
+                            <div class="pyramiding-item"><span class="pyramiding-level">激進加碼</span><span style="font-weight:800; font-size:1.1rem;">9459~9613</span><span style="font-size:0.8rem; opacity:0.9;">站穩 3960° 基本角後追擊</span></div><div class="pyramiding-item"><span class="pyramiding-level">穩健加碼</span><span style="font-weight:800; font-size:1.1rem;">9154</span><span style="font-size:0.8rem; opacity:0.9;">回測 3870° 基本角支撐</span></div><div class="pyramiding-item"><span class="pyramiding-level">重倉加碼</span><span style="font-weight:800; font-size:1.1rem;">2314</span><span style="font-size:0.8rem; opacity:0.9;">波段 1/8 強勢回檔位</span></div>
+                        </div>
+
+                        <div class="gann-sub-section">
+                            <div class="gann-sub-title">📉 波段百分比回檔防守位 (2025/04 基準)</div>
+                            <div class="retracement-grid">
+                                <div class="retracement-item"><span class="retracement-label">12.5% (1/8)</span><span class="retracement-val">2313.94</span></div><div class="retracement-item"><span class="retracement-label">25.0% (2/8)</span><span class="retracement-val">2092.87</span></div><div class="retracement-item"><span class="retracement-label">37.5% (3/8)</span><span class="retracement-val">1871.81</span></div><div class="retracement-item"><span class="retracement-label">50.0% (4/8)</span><span class="retracement-val">1650.74</span></div>
+                            </div>
+                        </div>
+
+                        <div class="gann-sub-section">
+                            <div class="gann-sub-title">🌀 江恩正方形幾何位階 (Square of 9)</div>
+                            <div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>1260° <span class status-pivot>🎯 關鍵</span></span><span style="font-weight:bold;">2482.18</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>1305° </span><span style="font-weight:bold;">2561.58</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>1350° </span><span style="font-weight:bold;">2642.23</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>1395° </span><span style="font-weight:bold;">2724.13</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>1440° </span><span style="font-weight:bold;">2807.28</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>1485° </span><span style="font-weight:bold;">2891.68</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>1530° </span><span style="font-weight:bold;">2977.33</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>1575° </span><span style="font-weight:bold;">3064.23</span></div>
+                        </div>
                     </div>
                 
                     <div class="gann-card">
-                        <div class="gann-header">元大台灣50 <span style="font-size: 0.9rem; font-weight: normal;">(0050.TW)</span></div>
-                        <div style="margin-bottom: 1rem; font-weight: bold;">現價: 108.35</div>
-                        <div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>585°</span><span style="font-weight:bold;">99.64</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>630°</span><span style="font-weight:bold;">104.69</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>675°</span><span style="font-weight:bold;">109.87</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>720°</span><span style="font-weight:bold;">115.17</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>765°</span><span style="font-weight:bold;">120.6</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>810°</span><span style="font-weight:bold;">126.15</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>855°</span><span style="font-weight:bold;">131.83</span></div><div style="display:flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #e5e7eb;"><span>900°</span><span style="font-weight:bold;">137.63</span></div>
+                        <div class="gann-header">
+                            <span>元大台灣50 (0050.TW)</span>
+                            <span style="font-size: 1rem; color: var(--text);">現價: 108.35</span>
+                        </div>
+                        
+                        <div class="gann-sub-section">
+                            <div class="gann-sub-title">💎 核心加碼點位建議 (Gann Pyramiding)</div>
+                            <p style="font-size:0.9rem; color:var(--text-light);">暫無特定加碼訊號</p>
+                        </div>
+
+                        <div class="gann-sub-section">
+                            <div class="gann-sub-title">📉 波段百分比回檔防守位 (2025/04 基準)</div>
+                            <div class="retracement-grid">
+                                <div class="retracement-item"><span class="retracement-label">12.5% (1/8)</span><span class="retracement-val">103.93</span></div><div class="retracement-item"><span class="retracement-label">25.0% (2/8)</span><span class="retracement-val">95.55</span></div><div class="retracement-item"><span class="retracement-label">37.5% (3/8)</span><span class="retracement-val">87.18</span></div><div class="retracement-item"><span class="retracement-label">50.0% (4/8)</span><span class="retracement-val">78.81</span></div>
+                            </div>
+                        </div>
+
+                        <div class="gann-sub-section">
+                            <div class="gann-sub-title">🌀 江恩正方形幾何位階 (Square of 9)</div>
+                            <div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>585° </span><span style="font-weight:bold;">99.64</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>630° </span><span style="font-weight:bold;">104.69</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>675° <span class status-pivot>🎯 關鍵</span></span><span style="font-weight:bold;">109.87</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>720° </span><span style="font-weight:bold;">115.17</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>765° </span><span style="font-weight:bold;">120.6</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>810° </span><span style="font-weight:bold;">126.15</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>855° </span><span style="font-weight:bold;">131.83</span></div><div style="display:flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px dashed #fef08a;"><span>900° </span><span style="font-weight:bold;">137.63</span></div>
+                        </div>
                     </div>
                 
                 </div>
@@ -107,49 +142,11 @@
                     <tbody>
     
             <tr>
-                <td><strong>被動元件</strong><br><span class="ticker-box">N/A</span></td>
+                <td><strong>Meta Platforms</strong><br><span style="font-size:0.8rem; background:#f3f4f6; padding:2px 4px; border-radius:4px;">META</span></td>
                 <td><span class="sentiment-0">GRAY (觀察)</span></td>
+                <td style="font-size:0.85rem; font-weight:bold;">1M:2 | 3M:5</td>
+                <td style="max-width:400px; font-size:0.9rem; color:#4b5563;">【四大師綜合判定：GRAY AREA】Meta透過Neo Cloud將閒置算力出租，反映Zuckerberg積極投入AI，並嘗試將內部資源貨幣化，此舉雖可提升資本效率，並與AI長期趨勢吻合。然而，其「癡漢」式追隨模仿策略，在新市場的定價權仍未確立。Munger角度則質疑其長期經營品質，特別是若其服務對象包含「詐騙集團」等灰色產業，將帶來巨大的道德與經營風險。Mirror Test結論：買入邏輯不夠強勁，缺乏明確的定價權與道德護城河，風險高於潛在回報。</td>
                 <td>
-                    <div class="badge-container">
-                        <span class="badge badge-1m">1M:9</span>
-                        <span class="badge badge-3m">3M:25</span>
-                    </div>
-                </td>
-                <td class="reason-cell">【四大師綜合判定】巴菲特認為AI需求強勁，產業具備印鈔機潛力，定價權高，毛利持續提升。芒格則指出股價已「噴到壞掉」，市場已充分反映利多，存在景氣循環與過度炒作的風險。段永平認為定價權穩固，但若已是市場共識且股價飆漲，可能已非「不去做的事情」的最佳時機。李錄視AI為十年大趨勢，被動元件是基礎，長期需求確定性高，但需警惕股價泡沫化。Mirror Test 結論：GRAY AREA。基本面強勁，但股價已先行反應，追高風險大，恐買在「水線第一排」，需等待合理估值或資金回流明確訊號。</td>
-                <td style="min-width: 130px;">-</td>
-                <td><div style="text-align:right; color:#9ca3af;">無報價</div></td>
-            </tr>
-        
-            <tr>
-                <td><strong>台積電</strong><br><span class="ticker-box">TSM</span></td>
-                <td><span class="sentiment-1">PASS (優質)</span></td>
-                <td>
-                    <div class="badge-container">
-                        <span class="badge badge-1m">1M:8</span>
-                        <span class="badge badge-3m">3M:25</span>
-                    </div>
-                </td>
-                <td class="reason-cell">【四大師綜合判定】巴菲特視其為全球半導體核心「印鈔機」，先進製程與生態系統構成無與倫比的護城河，高ROE，資本回報穩定。芒格認為其行業地位使其具備極強韌性，不易被取代。段永平強調掌握最先進製程的絕對定價權，是AI時代不可或缺的基石。李錄認為作為全球科技文明演進的關鍵基礎設施，長期確定性極高，管理層資本配置能力頂尖。Mirror Test 結論：BUY。在AI時代具有不可撼動的領先地位和核心競爭力，是長期穩健投資的首選。</td>
-                <td style="min-width: 130px;">
-    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="0.0,24.020220548839717 6.0,19.31321337988713 12.0,36.32819815717986 18.0,29.67663829439198 24.0,29.036064323318843 30.0,40.0 36.0,32.3898272689619 42.0,30.750279808273927 48.0,20.735229862661047 54.0,29.661067876960463 60.0,26.03798919430525 66.0,8.857048259983983 72.0,5.675382164086834 78.0,23.607307074436655 84.0,21.0619986905104 90.0,24.409900861052833 96.0,25.923327940545498 102.0,12.881406341096238 108.0,0.0 114.0,19.112862345700883 120.0,24.885708324968608" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="120.0" cy="24.885708324968608" r="3" fill="#dc2626"/>
-    </svg>
-    </td>
-                <td><div style="text-align:right;"><div style="font-weight:800;">434.16</div><div style="color:#dc2626; font-weight:700;">-0.35%</div></div></td>
-            </tr>
-        
-            <tr>
-                <td><strong>Meta Platforms</strong><br><span class="ticker-box">META</span></td>
-                <td><span class="sentiment-0">GRAY (觀察)</span></td>
-                <td>
-                    <div class="badge-container">
-                        <span class="badge badge-1m">1M:2</span>
-                        <span class="badge badge-3m">3M:5</span>
-                    </div>
-                </td>
-                <td class="reason-cell">【四大師綜合判定】巴菲特認為Neo Cloud業務若能成功，有望將閒置算力轉為印鈔機，但新業務模式需觀察其ROE表現。芒格指出祖克柏的「癡漢」模仿策略結果不一，新雲端業務面臨激烈競爭，且「灰色經濟」租戶可能帶來聲譽風險。段永平認為利用既有資源尋求新商業模式，但Neo Cloud的定價權與競爭力尚未明朗。李錄強調AI算力租賃符合長期AI趨勢，但Meta在此領域的資本配置與執行力仍需時間驗證。Mirror Test 結論：GRAY AREA。積極投入AI算力建設是積極信號，但Neo Cloud作為新業務面臨多重不確定性及競爭，策略風險較高。</td>
-                <td style="min-width: 130px;">
     <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
         <polyline points="0.0,2.180606064124035 6.0,0.0 12.0,16.42340321171612 18.0,20.038746078229348 24.0,20.418805924231826 30.0,26.88461214740343 36.0,28.09607286004104 42.0,28.784940400695397 48.0,15.934070718123007 54.0,12.733818796056315 60.0,28.249954288334674 66.0,23.665988489367322 72.0,30.023653972851626 78.0,30.808240289536236 84.0,32.962348099410534 90.0,40.0 96.0,36.49067917376528 102.0,30.61805073849735 108.0,30.289942562929724 114.0,6.6947708757194135 120.0,20.965024045787125" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         <circle cx="120.0" cy="20.965024045787125" r="3" fill="#dc2626"/>
@@ -159,169 +156,68 @@
             </tr>
         
             <tr>
-                <td><strong>Apple</strong><br><span class="ticker-box">AAPL</span></td>
+                <td><strong>被動元件</strong><br><span style="font-size:0.8rem; background:#f3f4f6; padding:2px 4px; border-radius:4px;">N/A</span></td>
                 <td><span class="sentiment-1">PASS (優質)</span></td>
+                <td style="font-size:0.85rem; font-weight:bold;">1M:9 | 3M:25</td>
+                <td style="max-width:400px; font-size:0.9rem; color:#4b5563;">【四大師綜合判定：BUY】被動元件正經歷「全面性的漲價」與顯著的毛利率提升，涵蓋AI與非AI應用，具備「印鈔機」特徵與寬廣護城河。其漲價是廣泛性的且有蔓延趨勢，營收預計「暴力」。儘管股價已「噴到壞掉」，但產業週期可能仍處於「中期或初期記憶體」階段，顯示有長期成長潛力。Mirror Test結論：核心邏輯強勁，漲價潮顯示定價權與資本回報率高，符合價值投資標準，即便有短期估值壓力，長期看好。</td>
+                <td>-</td>
+                <td><div style="text-align:right; color:#9ca3af;">無報價</div></td>
+            </tr>
+        
+            <tr>
+                <td><strong>聯發科</strong><br><span style="font-size:0.8rem; background:#f3f4f6; padding:2px 4px; border-radius:4px;">2454.TW</span></td>
+                <td><span class="sentiment-0">GRAY (觀察)</span></td>
+                <td style="font-size:0.85rem; font-weight:bold;">1M:7 | 3M:18</td>
+                <td style="max-width:400px; font-size:0.9rem; color:#4b5563;">【四大師綜合判定：GRAY AREA】聯發科全面轉強，漲價消息與獲得Google新晶片案（TriggerFish）皆為利好。然其部分漲價屬「成本導向」，而非純粹的需求驅動，且TriggerFish仍處「早期階段」。Munger視角警示，市場可能僅是PE上修而非實質獲利大增，且前面已「漲非常多」，利多出盡風險存在。Mirror Test結論：雖有正面消息與AI潛力，但未見明確、可持續的強勁需求驅動，買入邏輯在目前價位與市場情緒下稍嫌不足。</td>
                 <td>
-                    <div class="badge-container">
-                        <span class="badge badge-1m">1M:6</span>
-                        <span class="badge badge-3m">3M:9</span>
-                    </div>
-                </td>
-                <td class="reason-cell">【四大師綜合判定】巴菲特視其為極強的品牌護城河、生態系統及定價權，即使漲價仍有忠實客戶買單。高ROE穩定，持續回報股東。芒格指出儘管市場存在對其AI布局的質疑，但其產品黏性與轉換成本高，不易被挑戰。段永平強調具有「盤子」都會買單的強大定價權，以消費者為導向的產品策略成功。李錄認為在Edge AI、整合生態系統方面具領導潛力，符合長期科技趨勢，資本配置能力優異。Mirror Test 結論：BUY。強大品牌、定價權與生態系統，即便漲價消費者仍會買單，Edge AI潛力巨大，是長期穩健的優質標的。</td>
-                <td style="min-width: 130px;">
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,0.882352941176471 5.7142857142857135,7.647058823529413 11.428571428571427,15.294117647058822 17.142857142857142,28.823529411764707 22.857142857142854,5.0 28.57142857142857,23.823529411764707 34.285714285714285,27.941176470588236 40.0,22.352941176470587 45.71428571428571,5.294117647058826 51.42857142857142,0.0 57.14285714285714,5.882352941176471 62.85714285714286,10.0 68.57142857142857,5.588235294117645 74.28571428571429,1.470588235294116 80.0,16.176470588235293 85.71428571428572,14.705882352941178 91.42857142857142,40.0 97.14285714285714,38.23529411764706 102.85714285714285,18.529411764705884 108.57142857142857,13.235294117647062 114.28571428571428,12.647058823529413 120.0,21.470588235294116" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="21.470588235294116" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                <td><div style="text-align:right;"><div style="font-weight:800;">4195.00</div><div style="color:#dc2626; font-weight:700;">-7.70%</div></div></td>
+            </tr>
+        
+            <tr>
+                <td><strong>台積電</strong><br><span style="font-size:0.8rem; background:#f3f4f6; padding:2px 4px; border-radius:4px;">TSM</span></td>
+                <td><span class="sentiment-1">PASS (優質)</span></td>
+                <td style="font-size:0.85rem; font-weight:bold;">1M:8 | 3M:25</td>
+                <td style="max-width:400px; font-size:0.9rem; color:#4b5563;">【四大師綜合判定：BUY】台積電是AI時代不可或缺的「印鈔機」，具備獨一無二的「定價權」與寬廣護城河，其毛利與營收前景看好。作為「大盤的懷抱」，其長期確定性極高，與文明演進的大趨勢完美契合。儘管短期內可能因市場預期過高而有波動，但其核心價值與龍頭地位穩固。Mirror Test結論：買入邏輯無懈可擊，是AI基礎設施的基石，具備長期穩定且高增長的潛力，符合四大師的投資哲學。</td>
+                <td>
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,24.020220548839717 6.0,19.31321337988713 12.0,36.32819815717986 18.0,29.67663829439198 24.0,29.036064323318843 30.0,40.0 36.0,32.3898272689619 42.0,30.750279808273927 48.0,20.735229862661047 54.0,29.661067876960463 60.0,26.03798919430525 66.0,8.857048259983983 72.0,5.675382164086834 78.0,23.607307074436655 84.0,21.0619986905104 90.0,24.409900861052833 96.0,25.923327940545498 102.0,12.881406341096238 108.0,0.0 114.0,19.112862345700883 120.0,24.885708324968608" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="24.885708324968608" r="3" fill="#dc2626"/>
+    </svg>
+    </td>
+                <td><div style="text-align:right;"><div style="font-weight:800;">434.16</div><div style="color:#dc2626; font-weight:700;">-0.35%</div></div></td>
+            </tr>
+        
+            <tr>
+                <td><strong>Google</strong><br><span style="font-size:0.8rem; background:#f3f4f6; padding:2px 4px; border-radius:4px;">GOOG</span></td>
+                <td><span class="sentiment-1">PASS (優質)</span></td>
+                <td style="font-size:0.85rem; font-weight:bold;">1M:6 | 3M:18</td>
+                <td style="max-width:400px; font-size:0.9rem; color:#4b5563;">【四大師綜合判定：BUY】Google在AI應用層面展現強大實力，透過「降本增效」與晶片開發優化運營，並將公司調整到良好狀態。其核心廣告業務提供穩定現金流支持AI投資，且在雲端與搜索領域具備強大定價權。TriggerFish案也暗示其在硬體整合方面的潛力，管理層資本配置能力強。Mirror Test結論：Google在AI應用與基礎架構上佈局深遠，核心業務穩健，長期增長確定性高，是AI時代應用層面的優質投資。</td>
+                <td>
+    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="0.0,17.175435405583684 6.0,2.2544617599949035 12.0,6.108208733172795 18.0,10.9090817654765 24.0,9.67865605326704 30.0,19.5330919977906 36.0,15.973641397958062 42.0,14.215876011979049 48.0,4.383433507978907 54.0,0.0 60.0,9.887392578722519 66.0,3.998917091266911 72.0,24.52074164161253 78.0,27.48697282586375 84.0,28.62949182915187 90.0,31.760506184397897 96.0,40.0 102.0,21.774243703078497 108.0,19.522128804115052 114.0,14.512485719769707 120.0,16.391114448869022" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="120.0" cy="16.391114448869022" r="3" fill="#059669"/>
+    </svg>
+    </td>
+                <td><div style="text-align:right;"><div style="font-weight:800;">356.18</div><div style="color:#059669; font-weight:700;">+0.20%</div></div></td>
+            </tr>
+        
+            <tr>
+                <td><strong>Apple</strong><br><span style="font-size:0.8rem; background:#f3f4f6; padding:2px 4px; border-radius:4px;">AAPL</span></td>
+                <td><span class="sentiment-0">GRAY (觀察)</span></td>
+                <td style="font-size:0.85rem; font-weight:bold;">1M:6 | 3M:9</td>
+                <td style="max-width:400px; font-size:0.9rem; color:#4b5563;">【四大師綜合判定：GRAY AREA】Apple在Edge AI領域具備領導地位，強大品牌與「果粉」忠誠度賦予其顯著定價權，即便漲價亦能被市場接受。其毛利豐厚，可有效轉嫁成本。然而，Munger角度質疑其在AI時代的早期佈局相對保守，漲價雖有品牌支撐，但可能影響非核心受眾的銷量，長期成長需密切關注AI整合進產品的實際表現。Mirror Test結論：強勁品牌與忠誠客群是護城河，但AI競爭與高價對銷量的潛在影響，使得強力買入邏輯有待觀察。</td>
+                <td>
     <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
         <polyline points="0.0,1.0753888705625627 6.0,0.0 12.0,4.312652778130207 18.0,10.74279140974566 24.0,22.926844121901087 30.0,21.784939142497063 36.0,17.294898796383226 42.0,22.283809958808057 48.0,16.419058252345064 54.0,13.292699637138725 60.0,16.940123660415978 66.0,14.656313701607925 72.0,15.764960626591218 78.0,18.769418153213735 84.0,20.12196875502212 90.0,40.0 96.0,30.432371624079103 102.0,32.69402082434638 108.0,24.246136669288738 114.0,18.68070745261235 120.0,2.882488771600393" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         <circle cx="120.0" cy="2.882488771600393" r="3" fill="#dc2626"/>
     </svg>
     </td>
                 <td><div style="text-align:right;"><div style="font-weight:800;">308.63</div><div style="color:#dc2626; font-weight:700;">-0.53%</div></div></td>
-            </tr>
-        
-            <tr>
-                <td><strong>Google (Alphabet)</strong><br><span class="ticker-box">GOOGL</span></td>
-                <td><span class="sentiment-1">PASS (優質)</span></td>
-                <td>
-                    <div class="badge-container">
-                        <span class="badge badge-1m">1M:6</span>
-                        <span class="badge badge-3m">3M:18</span>
-                    </div>
-                </td>
-                <td class="reason-cell">【四大師綜合判定】巴菲特認為搜索、雲端、AI研發等業務構成廣闊護城河，現金流強勁，管理層在降本增效上表現出色。芒格指出雖面臨反壟斷和AI競爭，但其多樣化業務模式與持續創新能力降低單點風險。段永平強調核心搜索業務定價權極強，在AI模型應用上展現優異的商業本質。李錄認為站在AI研發與部署的最前沿，雲端運算領導者，符合十年大趨勢，資本配置策略得當。Mirror Test 結論：BUY。AI領導地位、多元化業務、強勁現金流及降本增效策略，使其在科技巨頭中具備長期投資價值。</td>
-                <td style="min-width: 130px;">
-    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="0.0,16.145354279781458 6.0,1.4301907987677183 12.0,5.510322877129681 18.0,11.087569996425714 24.0,10.027879427433493 30.0,18.817626333974435 36.0,17.267169336033902 42.0,15.136656851565029 48.0,4.350245944887924 54.0,0.0 60.0,10.55214201827992 66.0,5.822647354177654 72.0,26.2911510901571 78.0,30.250982928531307 84.0,31.18795635967525 90.0,32.95038551222916 96.0,40.0 102.0,21.862815515803447 108.0,17.7133422974146 114.0,13.430020594693033 120.0,14.880091229384028" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="120.0" cy="14.880091229384028" r="3" fill="#059669"/>
-    </svg>
-    </td>
-                <td><div style="text-align:right;"><div style="font-weight:800;">359.91</div><div style="color:#059669; font-weight:700;">+0.32%</div></div></td>
-            </tr>
-        
-            <tr>
-                <td><strong>美光 (Micron Technology)</strong><br><span class="ticker-box">MU</span></td>
-                <td><span class="sentiment-0">GRAY (觀察)</span></td>
-                <td>
-                    <div class="badge-container">
-                        <span class="badge badge-1m">1M:5</span>
-                        <span class="badge badge-3m">3M:11</span>
-                    </div>
-                </td>
-                <td class="reason-cell">【四大師綜合判定】巴菲特認為AI驅動下的HBM記憶體需求旺盛，毛利率暴力成長，具印鈔機潛力。芒格指出記憶體產業具高度景氣循環性，雖當前表現亮眼，但歷史經驗顯示高峰期後常有劇烈回檔。段永平強調憑藉HBM在AI領域有強大定價權，但需警惕傳統記憶體的消費端需求變化。李錄認為AI對記憶體需求長期存在，但行業週期性強烈，管理層需展現穿越週期的能力。Mirror Test 結論：GRAY AREA。短期內AI需求強勁，盈利能力爆發，但記憶體產業的週期性風險使其長期確定性低於其他AI核心技術，需謹慎評估。</td>
-                <td style="min-width: 130px;">
-    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="0.0,15.332867239342992 6.0,24.8960123819894 12.0,40.0 18.0,30.24231067143377 24.0,31.774567891059725 30.0,36.810757691423895 36.0,24.910889208154735 42.0,26.542702427856124 48.0,14.369337813609434 54.0,22.062654486759975 60.0,19.49593401673608 66.0,9.105427806534209 72.0,0.24946970749924446 78.0,18.51409142752576 84.0,18.887143558578728 90.0,0.0 96.0,9.295390209372123 102.0,7.813476728243685 108.0,6.782435846306321 114.0,20.744386093450217 120.0,27.23501962972767" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="120.0" cy="27.23501962972767" r="3" fill="#dc2626"/>
-    </svg>
-    </td>
-                <td><div style="text-align:right;"><div style="font-weight:800;">975.56</div><div style="color:#dc2626; font-weight:700;">-9.63%</div></div></td>
-            </tr>
-        
-            <tr>
-                <td><strong>Nokia</strong><br><span class="ticker-box">NOK</span></td>
-                <td><span class="sentiment-0">GRAY (觀察)</span></td>
-                <td>
-                    <div class="badge-container">
-                        <span class="badge badge-1m">1M:1</span>
-                        <span class="badge badge-3m">3M:1</span>
-                    </div>
-                </td>
-                <td class="reason-cell">【四大師綜合判定】巴菲特認為試圖透過新業務（如光線傳輸、CSP）尋找新的印鈔機，但其護城河與盈利能力仍需證明。芒格指出從衰落的舊業務（手機）轉型，新業務前景不明朗，且面臨強大競爭，不確定性高。段永平認為新業務若能建立定價權將是轉機，但需觀察其商業模式是否具備長期競爭力。李錄強調轉型至新興科技領域是正確方向，但其資本配置能力與執行力能否成功支撐長期趨勢仍待觀察。Mirror Test 結論：GRAY AREA。公司正處於轉型期，有潛在轉機，但新業務的規模和盈利能力尚未得到充分驗證，風險與回報尚不明朗。</td>
-                <td style="min-width: 130px;">
-    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="0.0,0.0 6.0,0.944194906478522 12.0,20.17166956861994 18.0,18.36909407485812 24.0,24.72102364866801 30.0,28.583691268190417 36.0,22.660939708953325 42.0,16.566518581096293 48.0,16.39484901247635 54.0,23.605150987523647 60.0,24.892701403333852 66.0,27.811157744285936 72.0,19.742483368001235 78.0,26.008582250524114 84.0,25.06437097195379 90.0,23.605150987523647 96.0,31.931325623715303 102.0,31.759656055095363 108.0,29.613733238047757 114.0,32.789698024952706 120.0,40.0" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="120.0" cy="40.0" r="3" fill="#dc2626"/>
-    </svg>
-    </td>
-                <td><div style="text-align:right;"><div style="font-weight:800;">12.07</div><div style="color:#dc2626; font-weight:700;">-27.85%</div></div></td>
-            </tr>
-        
-            <tr>
-                <td><strong>Tesla</strong><br><span class="ticker-box">TSLA</span></td>
-                <td><span class="sentiment--1">FAIL (避開)</span></td>
-                <td>
-                    <div class="badge-container">
-                        <span class="badge badge-1m">1M:3</span>
-                        <span class="badge badge-3m">3M:9</span>
-                    </div>
-                </td>
-                <td class="reason-cell">【四大師綜合判定】巴菲特認為雖具品牌和早期技術優勢，但競爭加劇可能削弱其護城河，未來ROE穩定性受挑戰。芒格指出估值高昂，過度依賴單一領導者風險，且傳統車廠競爭力上升，長期前景存在不確定性。段永平認為產品優異且有品牌力，但在商業本質上，過度依賴馬斯克個人，而非純粹的產品定價權。李錄強調電動車、自動駕駛、電池技術符合十年大趨勢，但馬斯克的資本配置分散至其他 ventures，可能影響Tesla長期發展。Mirror Test 結論：AVOID。主持人已賣出部分持股以投資SpaceX，表明對其核心領導人信仰的轉移。高估值、競爭加劇和對馬斯克個人的依賴是主要風險。</td>
-                <td style="min-width: 130px;">
-    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="0.0,1.2753892542592666 6.0,5.460324101835553 12.0,27.341564606902153 18.0,13.033063349830748 24.0,22.813869505405954 30.0,34.84256503383207 36.0,20.84495632786758 42.0,15.041847645621417 48.0,11.279390961978912 54.0,16.452759779553343 60.0,23.05299890895689 66.0,19.776804447855557 72.0,16.14189155493712 78.0,34.82663118242557 84.0,39.67317359748659 90.0,40.0 96.0,36.34117416672647 102.0,10.729369007321058 108.0,3.7464985057453077 114.0,0.0 120.0,25.388585280770275" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="120.0" cy="25.388585280770275" r="3" fill="#dc2626"/>
-    </svg>
-    </td>
-                <td><div style="text-align:right;"><div style="font-weight:800;">393.45</div><div style="color:#dc2626; font-weight:700;">-7.14%</div></div></td>
-            </tr>
-        
-            <tr>
-                <td><strong>Marvell Technology</strong><br><span class="ticker-box">MRVL</span></td>
-                <td><span class="sentiment-0">GRAY (觀察)</span></td>
-                <td>
-                    <div class="badge-container">
-                        <span class="badge badge-1m">1M:0</span>
-                        <span class="badge badge-3m">3M:0</span>
-                    </div>
-                </td>
-                <td class="reason-cell">【四大師綜合判定】巴菲特認為在ASIC和網路晶片領域具備專業護城河，盈利能力與數據中心建置高度相關。芒格指出面臨來自大型競爭對手（如Broadcom）的壓力，被其貶低為「小屁孩」，可能影響市場份額和成長潛力。段永平認為在特定利基市場有定價權，但若缺乏規模優勢，其商業本質仍有受壓風險。李錄強調產品對數據中心和AI基礎設施至關重要，符合長期趨勢，但其市場策略需有效應對競爭。Mirror Test 結論：GRAY AREA。受惠於AI基礎設施需求，但在與Broadcom等巨頭的競爭中，其地位和成長潛力存在不確定性。</td>
-                <td style="min-width: 130px;">
-    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="0.0,8.31037329553169 6.0,0.0 12.0,29.77789817793241 18.0,15.50744268141154 24.0,27.860550024226598 30.0,35.89541573551375 36.0,20.084341595257722 42.0,20.652224224839998 48.0,4.245143580401745 54.0,21.231363267929023 60.0,15.119473917101061 66.0,3.2892921865089946 72.0,4.818671575904325 78.0,21.023325528057274 84.0,22.339038970827485 90.0,19.775081929659855 96.0,27.922408821012944 102.0,21.748660673398636 108.0,10.424502775602495 114.0,24.95361555444164 120.0,40.0" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="120.0" cy="40.0" r="3" fill="#dc2626"/>
-    </svg>
-    </td>
-                <td><div style="text-align:right;"><div style="font-weight:800;">245.29</div><div style="color:#dc2626; font-weight:700;">-18.68%</div></div></td>
-            </tr>
-        
-            <tr>
-                <td><strong>Palantir Technologies</strong><br><span class="ticker-box">PLTR</span></td>
-                <td><span class="sentiment--1">FAIL (避開)</span></td>
-                <td>
-                    <div class="badge-container">
-                        <span class="badge badge-1m">1M:0</span>
-                        <span class="badge badge-3m">3M:0</span>
-                    </div>
-                </td>
-                <td class="reason-cell">【四大師綜合判定】巴菲特認為業務獨特，但估值過高，印鈔機潛力需更明確的盈利證明。芒格指出「估值超高的東西」，股價表現疲弱，長期盈利能力和市場接受度仍是問號。段永平認為在政府和企業數據分析領域有定價權，但市場對其商業模式的長期信任度不高。李錄強調數據分析與AI營運符合長期趨勢，但其資本配置與市場拓展策略效果有待觀察。Mirror Test 結論：AVOID。儘管長期趨勢有利，但「估值超高」且近期股價表現疲軟，投資風險過高，不適合建倉。</td>
-                <td style="min-width: 130px;">
-    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="0.0,0.0 6.0,0.5725737138638536 12.0,7.638131246116224 18.0,6.561689868282102 24.0,11.600331560858784 30.0,13.730306475374835 36.0,12.734033804791906 42.0,16.272543899596904 48.0,8.577143050600164 54.0,10.24906598345035 60.0,13.249346652556767 66.0,15.722869290103741 72.0,25.994843114706295 78.0,29.20125940705648 84.0,32.86572768107253 90.0,40.0 96.0,33.518461365406054 102.0,30.346406834784183 108.0,29.23561243200327 114.0,18.860570795778827 120.0,14.772394828262176" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="120.0" cy="14.772394828262176" r="3" fill="#dc2626"/>
-    </svg>
-    </td>
-                <td><div style="text-align:right;"><div style="font-weight:800;">129.30</div><div style="color:#dc2626; font-weight:700;">-9.07%</div></div></td>
-            </tr>
-        
-            <tr>
-                <td><strong>CrowdStrike Holdings</strong><br><span class="ticker-box">CRWD</span></td>
-                <td><span class="sentiment-1">PASS (優質)</span></td>
-                <td>
-                    <div class="badge-container">
-                        <span class="badge badge-1m">1M:0</span>
-                        <span class="badge badge-3m">3M:0</span>
-                    </div>
-                </td>
-                <td class="reason-cell">【四大師綜合判定】巴菲特認為雲原生資安平台具強大護城河與網絡效應，成長迅速，盈利能力表現優異。芒格指出雖然科技股普遍估值較高，但其在資安領域的領先地位與不斷擴大的市場證明其價值。段永平強調在關鍵資安領域有強大定價權，提供不可或缺的服務，商業本質優異。李錄認為網路安全是永恆且不斷增長的趨勢，管理層執行力強，符合十年大趨勢。Mirror Test 結論：BUY。在關鍵且增長的資安領域表現優異，具備強大護城河和成長潛力，是值得長期持有的優質標的。</td>
-                <td style="min-width: 130px;">
-    <svg width="120" height="40" viewBox="0 -5 120 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="0.0,8.644934626818383 6.0,17.35398436262313 12.0,32.032970822033974 18.0,35.76762000615058 24.0,40.0 30.0,39.14191991202811 36.0,25.769893855946023 42.0,28.435759083750362 48.0,25.348504757378365 54.0,29.446522594052578 60.0,28.386889951261335 66.0,27.806704129273953 72.0,30.68325458730558 78.0,29.009850242761424 84.0,31.422237132712684 90.0,29.703020306224197 96.0,22.850587566514765 102.0,10.080162524346036 108.0,3.9025785829442654 114.0,0.9710643294472874 120.0,0.0" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="120.0" cy="0.0" r="3" fill="#059669"/>
-    </svg>
-    </td>
-                <td><div style="text-align:right;"><div style="font-weight:800;">193.98</div><div style="color:#059669; font-weight:700;">+3.79%</div></div></td>
-            </tr>
-        
-            <tr>
-                <td><strong>台灣50 (Taiwan Top 50 ETF)</strong><br><span class="ticker-box">0050</span></td>
-                <td><span class="sentiment-1">PASS (優質)</span></td>
-                <td>
-                    <div class="badge-container">
-                        <span class="badge badge-1m">1M:4</span>
-                        <span class="badge badge-3m">3M:15</span>
-                    </div>
-                </td>
-                <td class="reason-cell">【四大師綜合判定】巴菲特認為分散投資於市場領先企業，具備市場整體成長的印鈔機屬性，風險分散。芒格指出透過汰弱留強機制，自動更新持股，避免長期持有衰退企業的風險。段永平認為無需擇股，定價權為市場平均，符合「不做的事情」（個股投機）的原則，適合懶人投資。李錄強調代表台灣經濟整體脈動，長期趨勢向上，為被動投資者提供穩健的資本配置。Mirror Test 結論：BUY。低成本、高度分散、自動汰弱留強機制，適合長期持有，且在牛市中表現優異，屌打許多主動型投資者。</td>
-                <td style="min-width: 130px;">-</td>
-                <td><div style="text-align:right; color:#9ca3af;">無報價</div></td>
             </tr>
         
                     </tbody>

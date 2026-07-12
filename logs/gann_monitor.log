@@ -1,0 +1,7 @@
+/Users/julian/Documents/gemini/stock-analyst/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+--- 啟動江恩變盤監控系統 (2026-07-12 11:45) ---
+[元大台灣50] 現價: 105.80 | 狀態: 🔴 向下轉折確立 (Bearish Turn)
+[台積電] 現價: 2415.00 | 狀態: 🟡 橫盤震盪中 (無明確轉折)
+✅ 變盤警報已成功寄送至 julians900724@gmail.com,dracohsieh@gmail.com
+Execution completed at 2026年 7月12日 週日 11時45分44秒 CST

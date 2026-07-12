@@ -29,10 +29,16 @@ def send_summary_email(html_content):
     print(f"📄 請先開啟 {INPUT_PATH} 檢查報告內容。")
     print("="*50)
     
-    approval = input("如果您確認內容無誤，請輸入 'APPROVE' 以授權發信 (輸入其他字元將取消): ")
-    if approval.strip() != "APPROVE":
-        print("\n❌ 發信已取消 (原因：未獲得人類批准)。")
-        sys.exit(2)
+    # 自動核准判斷：如果不是在終端機執行(如 Crontab) 或設定了 AUTO_APPROVE=1
+    is_automated = not sys.stdin.isatty() or os.environ.get("AUTO_APPROVE") == "1"
+    
+    if is_automated:
+        print("\n🤖 偵測到自動化執行環境，略過人工核准，直接授權發信...")
+    else:
+        approval = input("如果您確認內容無誤，請輸入 'APPROVE' 以授權發信 (輸入其他字元將取消): ")
+        if approval.strip() != "APPROVE":
+            print("\n❌ 發信已取消 (原因：未獲得人類批准)。")
+            sys.exit(2)
         
     print("\n⏳ 已獲得授權，正在連線 SMTP 伺服器發信...")
 

@@ -6,6 +6,11 @@
 
 echo "🚀 啟動 AI Berkshire 分析管線..."
 
+# 1. 載入環境變數 (Email 與 API Key)
+if [ -f .env ]; then
+    export $(cat .env | xargs)
+fi
+
 # 確保在正確的虛擬環境中執行
 if [ -z "$VIRTUAL_ENV" ]; then
     source venv/bin/activate
